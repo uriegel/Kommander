@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->folderView->setModel(model);
 
-    connect(fileModel, &QFileSystemModel::directoryLoaded, [model, fileModel](const QString &directory) {
+    connect(fileModel, &QFileSystemModel::directoryLoaded, [model, fileModel, this](const QString &directory) {
         auto parentIndex = fileModel->index(directory);
         int numRows = fileModel->rowCount(parentIndex);
         for (auto i = 0; i < numRows; i++) {
@@ -39,7 +39,10 @@ MainWindow::MainWindow(QWidget *parent)
             model->appendRow(list);
         }
         delete fileModel;
+        ui->folderView->resizeColumnToContents(0);
     });
+
+    connect(ui->changeModelButton, SIGNAL(clicked()), this, SLOT(on_changeModel()));
 }
 
 MainWindow::~MainWindow()
@@ -47,3 +50,11 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::on_changeModel()
+{
+    auto model = new QFileSystemModel(this);
+    auto path = "/media/uwe/Home/Bilder/Fotos/2017/Abu Dabbab/";
+    model->setRootPath(path);
+    ui->folderView->setModel(model);
+    ui->folderView->setRootIndex(model->index(path));
+}

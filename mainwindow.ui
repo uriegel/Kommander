@@ -45,6 +45,13 @@
       </attribute>
      </widget>
     </item>
+    <item>
+     <widget class="QPushButton" name="changeModelButton">
+      <property name="text">
+       <string>Change Model</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
