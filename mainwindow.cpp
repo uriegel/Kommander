@@ -40,10 +40,6 @@ MainWindow::MainWindow(QWidget *parent)
         }
         delete fileModel;
     });
-
-    ui->folderView->setStyleSheet("QTreeView::item:selected { color: red; background-color: blue;}"
-        "QTreeView::item:selected:focus { color: blue; background-color: red; }");
-
 }
 
 MainWindow::~MainWindow()
