@@ -22,6 +22,5 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QTreeView* folderView;
 };
 #endif // MAINWINDOW_H

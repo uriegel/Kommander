@@ -2,7 +2,8 @@
 
 #include "folderview.h"
 
-FolderView::FolderView()
+FolderView::FolderView(QWidget* parent)
+    : QTreeView(parent)
 {
     setSelectionMode(MultiSelection);
     setAllColumnsShowFocus(true);

@@ -23,12 +23,10 @@ MainWindow::MainWindow(QWidget *parent)
     auto path = QDir::homePath() + "/Dokumente";
     fileModel->setRootPath(path);
 
-    folderView = new FolderView;
-    ui->centralwidget->layout()->addWidget(folderView);
-    folderView->setModel(model);
-    folderView->setItemDelegateForColumn(0, new ItemDelegate(folderView));
-    folderView->setItemDelegateForColumn(1, new ItemDelegate(folderView));
-    folderView->setItemDelegateForColumn(2, new DateItemDelegate(folderView));
+    ui->folderView->setModel(model);
+    ui->folderView->setItemDelegateForColumn(0, new ItemDelegate(ui->folderView));
+    ui->folderView->setItemDelegateForColumn(1, new ItemDelegate(ui->folderView));
+    ui->folderView->setItemDelegateForColumn(2, new DateItemDelegate(ui->folderView));
 
     connect(fileModel, &QFileSystemModel::directoryLoaded, [model, fileModel, this](const QString &directory) {
         auto parentIndex = fileModel->index(directory);
@@ -48,7 +46,7 @@ MainWindow::MainWindow(QWidget *parent)
             model->appendRow(list);
         }
         delete fileModel;
-        folderView->resizeColumnToContents(0);
+        ui->folderView->resizeColumnToContents(0);
     });
 
     connect(ui->changeModelButton, SIGNAL(clicked()), this, SLOT(on_changeModel()));
@@ -65,8 +63,8 @@ void MainWindow::on_changeModel()
     auto path = "/media/uwe/Home/Bilder/Fotos/2017/Abu Dabbab/";
     model->setRootPath(path);
 
-    auto oldModel = folderView->model();
-    folderView->setModel(model);
+    auto oldModel = ui->folderView->model();
+    ui->folderView->setModel(model);
     delete oldModel;
-    folderView->setRootIndex(model->index(path));
+    ui->folderView->setRootIndex(model->index(path));
 }

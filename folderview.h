@@ -7,7 +7,7 @@
 class FolderView : public QTreeView
 {
 public:
-    FolderView();
+    FolderView(QWidget* parent = nullptr);
 protected:
     void keyPressEvent(QKeyEvent *event) override;
 };
