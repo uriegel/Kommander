@@ -18,39 +18,14 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="layoutDirection">
+   <enum>Qt::LeftToRight</enum>
+  </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
    <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <widget class="QTreeView" name="folderView">
-      <property name="selectionMode">
-       <enum>QAbstractItemView::MultiSelection</enum>
-      </property>
-      <property name="selectionBehavior">
-       <enum>QAbstractItemView::SelectRows</enum>
-      </property>
-      <property name="textElideMode">
-       <enum>Qt::ElideNone</enum>
-      </property>
-      <property name="rootIsDecorated">
-       <bool>false</bool>
-      </property>
-      <property name="uniformRowHeights">
-       <bool>true</bool>
-      </property>
-      <property name="itemsExpandable">
-       <bool>false</bool>
-      </property>
-      <property name="sortingEnabled">
-       <bool>true</bool>
-      </property>
-      <property name="allColumnsShowFocus">
-       <bool>true</bool>
-      </property>
-      <attribute name="headerShowSortIndicator" stdset="0">
-       <bool>true</bool>
-      </attribute>
-     </widget>
-    </item>
     <item>
      <widget class="QPushButton" name="changeModelButton">
       <property name="text">
@@ -66,7 +41,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>29</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

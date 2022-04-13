@@ -1,11 +1,13 @@
 #include <QFileSystemModel>
 #include <QStandardItemModel>
+#include <QTreeView>
 #include <QDateTime>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "dateitemdelegate.h"
 #include "variantitem.h"
+#include "folderview.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -21,10 +23,12 @@ MainWindow::MainWindow(QWidget *parent)
     auto path = QDir::homePath() + "/Dokumente";
     fileModel->setRootPath(path);
 
-    ui->folderView->setModel(model);
-    ui->folderView->setItemDelegateForColumn(0, new ItemDelegate(ui->folderView));
-    ui->folderView->setItemDelegateForColumn(1, new ItemDelegate(ui->folderView));
-    ui->folderView->setItemDelegateForColumn(2, new DateItemDelegate(ui->folderView));
+    folderView = new FolderView;
+    ui->centralwidget->layout()->addWidget(folderView);
+    folderView->setModel(model);
+    folderView->setItemDelegateForColumn(0, new ItemDelegate(folderView));
+    folderView->setItemDelegateForColumn(1, new ItemDelegate(folderView));
+    folderView->setItemDelegateForColumn(2, new DateItemDelegate(folderView));
 
     connect(fileModel, &QFileSystemModel::directoryLoaded, [model, fileModel, this](const QString &directory) {
         auto parentIndex = fileModel->index(directory);
@@ -44,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent)
             model->appendRow(list);
         }
         delete fileModel;
-        ui->folderView->resizeColumnToContents(0);
+        folderView->resizeColumnToContents(0);
     });
 
     connect(ui->changeModelButton, SIGNAL(clicked()), this, SLOT(on_changeModel()));
@@ -61,8 +65,8 @@ void MainWindow::on_changeModel()
     auto path = "/media/uwe/Home/Bilder/Fotos/2017/Abu Dabbab/";
     model->setRootPath(path);
 
-    auto oldModel = ui->folderView->model();
-    ui->folderView->setModel(model);
+    auto oldModel = folderView->model();
+    folderView->setModel(model);
     delete oldModel;
-    ui->folderView->setRootIndex(model->index(path));
+    folderView->setRootIndex(model->index(path));
 }
