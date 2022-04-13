@@ -22,7 +22,9 @@ MainWindow::MainWindow(QWidget *parent)
     fileModel->setRootPath(path);
 
     ui->folderView->setModel(model);
-    ui->folderView->setItemDelegateForColumn(2, new DateItemDelegate(nullptr));
+    ui->folderView->setItemDelegateForColumn(0, new ItemDelegate(ui->folderView));
+    ui->folderView->setItemDelegateForColumn(1, new ItemDelegate(ui->folderView));
+    ui->folderView->setItemDelegateForColumn(2, new DateItemDelegate(ui->folderView));
 
     connect(fileModel, &QFileSystemModel::directoryLoaded, [model, fileModel, this](const QString &directory) {
         auto parentIndex = fileModel->index(directory);
@@ -45,9 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
         ui->folderView->resizeColumnToContents(0);
     });
 
-    connect(ui->changeModelButton, SIGNAL(clicked()), this, SLOT(o  n_changeModel()));
-
-    //ui->folderView->setStyleSheet("QTreeView::item { border:none; }");
+    connect(ui->changeModelButton, SIGNAL(clicked()), this, SLOT(on_changeModel()));
 }
 
 MainWindow::~MainWindow()
@@ -57,7 +57,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_changeModel()
 {
-    auto index = ui->folderView->currentIndex();
     auto model = new QFileSystemModel(this);
     auto path = "/media/uwe/Home/Bilder/Fotos/2017/Abu Dabbab/";
     model->setRootPath(path);

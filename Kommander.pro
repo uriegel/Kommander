@@ -10,12 +10,14 @@ CONFIG += c++11
 
 SOURCES += \
     dateitemdelegate.cpp \
+    itemdelegate.cpp \
     main.cpp \
     mainwindow.cpp \
     variantitem.cpp
 
 HEADERS += \
     dateitemdelegate.h \
+    itemdelegate.h \
     mainwindow.h \
     variantitem.h
 

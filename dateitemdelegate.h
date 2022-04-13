@@ -1,16 +1,18 @@
 #ifndef DATEITEMDELEGATE_H
 #define DATEITEMDELEGATE_H
 
-#include <QStyledItemDelegate>
+#include <QAbstractItemView>
 
-class DateItemDelegate : public QStyledItemDelegate
+#include "itemdelegate.h"
+
+class DateItemDelegate : public ItemDelegate
 {
+    Q_OBJECT
 public:
-    DateItemDelegate(QObject* parent) :
-        QStyledItemDelegate(parent) {};
+    DateItemDelegate(QAbstractItemView* parent) :
+        ItemDelegate(parent) {};
 
     QString displayText(const QVariant& value, const QLocale& locale) const;
-    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 };
 
 #endif // DATEITEMDELEGATE_H
