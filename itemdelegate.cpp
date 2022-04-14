@@ -17,3 +17,8 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
     else
         QStyledItemDelegate::paint(painter, option, index);
 }
+
+ItemDelegate::~ItemDelegate()
+{
+    printf("~ItemDelegate\n");
+}

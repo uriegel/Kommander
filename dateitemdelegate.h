@@ -12,6 +12,8 @@ public:
     DateItemDelegate(QAbstractItemView* parent) :
         ItemDelegate(parent) {};
 
+    ~DateItemDelegate();
+
     QString displayText(const QVariant& value, const QLocale& locale) const;
 };
 

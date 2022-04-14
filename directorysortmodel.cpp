@@ -6,6 +6,12 @@ DirectorySortModel::DirectorySortModel(QObject* parent)
     this->setSortCaseSensitivity(Qt::CaseInsensitive);
 }
 
+DirectorySortModel::~DirectorySortModel()
+{
+    delete sourceModel();
+    printf("~DirectorySortModel\n");
+}
+
 void DirectorySortModel::sort(int column, Qt::SortOrder order)
 {
     descending = order == Qt::DescendingOrder;

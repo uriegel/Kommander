@@ -9,3 +9,8 @@ QString DateItemDelegate::displayText(const QVariant& value, const QLocale& loca
     else
         return QStyledItemDelegate::displayText(value, locale);
 }
+
+DateItemDelegate::~DateItemDelegate()
+{
+    printf("~DateItemDelegate\n");
+}

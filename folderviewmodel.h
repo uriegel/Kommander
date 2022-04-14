@@ -8,6 +8,7 @@ class FolderViewModel : public QStandardItemModel
 {
 public:
     FolderViewModel(QObject* parent = nullptr);
+    ~FolderViewModel();
 };
 
 #endif // FOLDERVIEWMODEL_H

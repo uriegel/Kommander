@@ -10,6 +10,9 @@ class ItemDelegate : public QStyledItemDelegate
 public:
     ItemDelegate(QAbstractItemView* parent) :
         QStyledItemDelegate(parent) {};
+
+    ~ItemDelegate();
+
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 };
 
