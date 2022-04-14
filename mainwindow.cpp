@@ -8,62 +8,29 @@
 #include "dateitemdelegate.h"
 #include "variantitem.h"
 #include "folderview.h"
-#include "folderviewmodel.h"
-#include "directorysortmodel.h"
+#include "filesystemmodel.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    auto model = new FolderViewModel(this);
-    model->setHorizontalHeaderItem(0, new QStandardItem(tr("Name")));
-    model->setHorizontalHeaderItem(1, new QStandardItem(tr("Größe")));
-    model->setHorizontalHeaderItem(2, new QStandardItem(tr("Datum")));
 
-    auto fileModel = new QFileSystemModel(this);
-    auto path = QDir::homePath() + "/Dokumente";
-    //auto path = "/media/uwe/Home/Bilder/Fotos/2017/Abu Dabbab/";
-    fileModel->setRootPath(path);
 
-    auto proxyModel = new DirectorySortModel(this);
-    proxyModel->setSourceModel(model);
-    ui->folderView->setModel(proxyModel);
+
+
+
+    auto model = FileSystemModel::create(this);
+    ui->folderView->setModel(model);
     ui->folderView->setItemDelegateForColumn(0, new ItemDelegate(ui->folderView));
     ui->folderView->setItemDelegateForColumn(1, new ItemDelegate(ui->folderView));
     ui->folderView->setItemDelegateForColumn(2, new DateItemDelegate(ui->folderView));
     ui->folderView->header()->setSortIndicator(0, Qt::AscendingOrder);
+    ui->folderView->setColumnWidth(0, 300);
+    ui->folderView->setColumnWidth(1, 140);
 
-    connect(fileModel, &QFileSystemModel::directoryLoaded, ui->folderView, [model, fileModel, this](const QString &directory) {
-        auto parentIndex = fileModel->index(directory);
-        int numRows = fileModel->rowCount(parentIndex);
-        auto list = QList<QStandardItem*>();
-        list.append(new QStandardItem(QIcon("/home/uwe/Projekte/Qt/Kommander/parent.svg"), ".."));
-        list.append(new VariantItem(QVariant(0)));
-        list.append(new VariantItem(QVariant()));
-        ui->folderView->setColumnWidth(0, 300);
-        ui->folderView->setColumnWidth(1, 140);
 
-        list[0]->setData(QVariant(1), Qt::UserRole+1);
-        model->appendRow(list);
 
-        for (auto i = 0; i < numRows; i++) {
-            auto indexi = fileModel->index(i, 0, parentIndex);
-            auto content = fileModel->data(indexi, Qt::DisplayRole).toString();
-            auto eikon = fileModel->fileIcon(indexi);
-            auto seize = fileModel->size(indexi);
-            auto lm = fileModel->lastModified(indexi);
-
-            auto list = QList<QStandardItem*>();
-            list.append(new QStandardItem(eikon, content));
-            list.append(new VariantItem(QVariant(seize)));
-            list.append(new VariantItem(QVariant(lm)));
-
-            list[0]->setData(QVariant(fileModel->isDir(indexi) ? 1 : 2), Qt::UserRole+1);
-            model->appendRow(list);
-        }
-        delete fileModel;
-    });
 
     connect(ui->changeModelButton, SIGNAL(clicked()), this, SLOT(on_changeModel()));
 }
