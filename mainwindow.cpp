@@ -31,6 +31,17 @@ MainWindow::MainWindow(QWidget *parent)
     connect(fileModel, &QFileSystemModel::directoryLoaded, [model, fileModel, this](const QString &directory) {
         auto parentIndex = fileModel->index(directory);
         int numRows = fileModel->rowCount(parentIndex);
+
+        auto list = QList<QStandardItem*>();
+        list.append(new QStandardItem(QIcon("/home/uwe/Projekte/Qt/Kommander/parent.svg"), ".."));
+        list.append(new VariantItem(QVariant(0)));
+        list.append(new VariantItem(QVariant()));
+        ui->folderView->setColumnWidth(0, 300);
+        ui->folderView->setColumnWidth(1, 140);
+
+        model->appendRow(list);
+
+
         for (auto i = 0; i < numRows; i++) {
             auto indexi = fileModel->index(i, 0, parentIndex);
             auto content = fileModel->data(indexi, Qt::DisplayRole).toString();
@@ -46,7 +57,6 @@ MainWindow::MainWindow(QWidget *parent)
             model->appendRow(list);
         }
         delete fileModel;
-        ui->folderView->resizeColumnToContents(0);
     });
 
     connect(ui->changeModelButton, SIGNAL(clicked()), this, SLOT(on_changeModel()));
@@ -60,7 +70,8 @@ MainWindow::~MainWindow()
 void MainWindow::on_changeModel()
 {
     auto model = new QFileSystemModel(this);
-    auto path = "/media/uwe/Home/Bilder/Fotos/2017/Abu Dabbab/";
+    //auto path = "/media/uwe/Home/Bilder/Fotos/2017/Abu Dabbab/";
+    auto path = QDir::homePath() + "/Dokumente";
     model->setRootPath(path);
 
     auto oldModel = ui->folderView->model();
