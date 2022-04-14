@@ -10,7 +10,6 @@ int main(int argc, char *argv[])
     return a.exec();
 }
 
-// TODO Tab Key process, no emitting -> focus stys in FolderView
 // TODO Extend FilesModels with parent item ..
 // TODO Sorting (string (name), integer (size) date time, but always directory sort by name before files
 // TODO get exifs in a background thread, then change model
