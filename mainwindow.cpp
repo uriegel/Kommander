@@ -8,30 +8,35 @@
 #include "dateitemdelegate.h"
 #include "variantitem.h"
 #include "folderview.h"
+#include "folderviewmodel.h"
+#include "directorysortmodel.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    auto model = new QStandardItemModel();
+    auto model = new FolderViewModel(this);
     model->setHorizontalHeaderItem(0, new QStandardItem(tr("Name")));
     model->setHorizontalHeaderItem(1, new QStandardItem(tr("Größe")));
     model->setHorizontalHeaderItem(2, new QStandardItem(tr("Datum")));
 
     auto fileModel = new QFileSystemModel(this);
     auto path = QDir::homePath() + "/Dokumente";
+    //auto path = "/media/uwe/Home/Bilder/Fotos/2017/Abu Dabbab/";
     fileModel->setRootPath(path);
 
-    ui->folderView->setModel(model);
+    auto proxyModel = new DirectorySortModel(this);
+    proxyModel->setSourceModel(model);
+    ui->folderView->setModel(proxyModel);
     ui->folderView->setItemDelegateForColumn(0, new ItemDelegate(ui->folderView));
     ui->folderView->setItemDelegateForColumn(1, new ItemDelegate(ui->folderView));
     ui->folderView->setItemDelegateForColumn(2, new DateItemDelegate(ui->folderView));
+    ui->folderView->header()->setSortIndicator(0, Qt::AscendingOrder);
 
     connect(fileModel, &QFileSystemModel::directoryLoaded, ui->folderView, [model, fileModel, this](const QString &directory) {
         auto parentIndex = fileModel->index(directory);
         int numRows = fileModel->rowCount(parentIndex);
-
         auto list = QList<QStandardItem*>();
         list.append(new QStandardItem(QIcon("/home/uwe/Projekte/Qt/Kommander/parent.svg"), ".."));
         list.append(new VariantItem(QVariant(0)));
@@ -39,8 +44,8 @@ MainWindow::MainWindow(QWidget *parent)
         ui->folderView->setColumnWidth(0, 300);
         ui->folderView->setColumnWidth(1, 140);
 
+        list[0]->setData(QVariant(1), Qt::UserRole+1);
         model->appendRow(list);
-
 
         for (auto i = 0; i < numRows; i++) {
             auto indexi = fileModel->index(i, 0, parentIndex);
@@ -54,6 +59,7 @@ MainWindow::MainWindow(QWidget *parent)
             list.append(new VariantItem(QVariant(seize)));
             list.append(new VariantItem(QVariant(lm)));
 
+            list[0]->setData(QVariant(fileModel->isDir(indexi) ? 1 : 2), Qt::UserRole+1);
             model->appendRow(list);
         }
         delete fileModel;

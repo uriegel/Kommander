@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
     return a.exec();
 }
 
-// TODO Sorting (string (name), integer (size) date time, but always directory sort by name before files
+// TODO Sorting Umlaute correct in files
 // TODO get exifs in a background thread, then change model
 // TODO Sorting by datetime or exiftime
 // TODO Delete old filemanager

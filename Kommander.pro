@@ -10,7 +10,9 @@ CONFIG += c++11
 
 SOURCES += \
     dateitemdelegate.cpp \
+    directorysortmodel.cpp \
     folderview.cpp \
+    folderviewmodel.cpp \
     itemdelegate.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -18,7 +20,9 @@ SOURCES += \
 
 HEADERS += \
     dateitemdelegate.h \
+    directorysortmodel.h \
     folderview.h \
+    folderviewmodel.h \
     itemdelegate.h \
     mainwindow.h \
     variantitem.h
