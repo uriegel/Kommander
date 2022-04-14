@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->folderView->setItemDelegateForColumn(1, new ItemDelegate(ui->folderView));
     ui->folderView->setItemDelegateForColumn(2, new DateItemDelegate(ui->folderView));
 
-    connect(fileModel, &QFileSystemModel::directoryLoaded, [model, fileModel, this](const QString &directory) {
+    connect(fileModel, &QFileSystemModel::directoryLoaded, ui->folderView, [model, fileModel, this](const QString &directory) {
         auto parentIndex = fileModel->index(directory);
         int numRows = fileModel->rowCount(parentIndex);
 
