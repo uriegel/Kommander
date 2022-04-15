@@ -48,7 +48,7 @@ void FileSystemModel::changePath(const QString& path)
         auto parentIndex = fileModel->index(directory);
         int numRows = fileModel->rowCount(parentIndex);
         auto list = QList<QStandardItem*>();
-        list.append(new QStandardItem(QIcon("/home/uwe/Projekte/Qt/Kommander/parent.svg"), ".."));
+        list.append(new QStandardItem(QIcon(":/images/parent.svg"), ".."));
         list.append(new VariantItem(QVariant(0)));
         list.append(new VariantItem(QVariant()));
 

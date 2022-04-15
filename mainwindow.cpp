@@ -16,9 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     FileSystemModel::attach(ui->folderView);
     connect(ui->changeModelButton, SIGNAL(clicked()), this, SLOT(on_changeModel()));
 
-    auto path = QDir::cleanPath(QDir::homePath() + "/Dokumente");
-        //path = QDir::cleanPath(QDir::homePath());
-        //path = QDir::cleanPath("/media/uwe/Home/Bilder/Fotos/2017/Abu Dabbab/");
+    auto path = QDir::cleanPath(QDir::homePath());
     ui->folderView->changePath(path);
 }
 

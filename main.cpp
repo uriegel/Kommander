@@ -10,7 +10,6 @@ int main(int argc, char *argv[])
     return a.exec();
 }
 
-// TODO Icon and title
 // TODO Select first item when path changed
 // TODO Select last item when path changed to parent
 // TODO Edit control to show path and change it -> tab

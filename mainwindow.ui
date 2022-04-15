@@ -19,7 +19,11 @@
    <enum>Qt::NoFocus</enum>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Kommander</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="main.qrc">
+    <normaloff>:/images/kirk.png</normaloff>:/images/kirk.png</iconset>
   </property>
   <property name="layoutDirection">
    <enum>Qt::LeftToRight</enum>
@@ -85,6 +89,8 @@
    <header>folderview.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="main.qrc"/>
+ </resources>
  <connections/>
 </ui>

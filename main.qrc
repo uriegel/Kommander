@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>kirk.png</file>
+        <file>parent.svg</file>
+    </qresource>
+</RCC>

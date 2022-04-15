@@ -49,3 +49,6 @@ DISTFILES += \
     .gitignore \
     README.md \
     parent.svg
+
+RESOURCES += \
+    main.qrc
