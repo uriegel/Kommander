@@ -1,5 +1,6 @@
 #include "directorysortmodel.h"
 #include "filesystemmodel.h"
+#include "types.h"
 
 DirectorySortModel::DirectorySortModel(QObject* parent)
     : QSortFilterProxyModel(parent)
@@ -27,10 +28,10 @@ bool DirectorySortModel::lessThenByOrder(bool less) const
 
 bool DirectorySortModel::lessThan(const QModelIndex &left, const QModelIndex &right) const
 {
-    auto leftType = left.model()->data(left.model()->index(left.row(), 0), Qt::UserRole+1);
-    auto rightType = right.model()->data(right.model()->index(right.row(), 0), Qt::UserRole+1);
+    auto leftType = left.model()->data(left.model()->index(left.row(), 0), QtRoleItemType);
+    auto rightType = right.model()->data(right.model()->index(right.row(), 0), QtRoleItemType);
 
-    if (leftType == 2 && rightType == 2)
+    if (leftType == (int)ItemType::Item && rightType == (int)ItemType::Item)
     {
         if (column == 0)
         {

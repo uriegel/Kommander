@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
     return a.exec();
 }
 
-// TODO helper funcitons getPath(index), isDir(index)
+// TODO helper funcitons isDir(index)
 // TODO Base class FolderViewModel with function changePath
 // TODO Edit control to show path and change it -> tab
 // TODO two folder views, focus handling

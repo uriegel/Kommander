@@ -4,6 +4,8 @@
 #include <QTreeView>
 #include <QObject>
 
+#include "types.h"
+
 class FolderViewModel;
 
 class FolderView : public QTreeView
@@ -12,6 +14,11 @@ public:
     FolderView(QWidget* parent = nullptr);
 
     void setModels(FolderViewModel* folderViewModel, QAbstractItemModel* model);
+    QString getPath(int row) const;
+    QString getCurrentPath() const;
+    ItemType getItemType(int row) const;
+    ItemType getCurrentItemType() const;
+
 protected:
     void keyPressEvent(QKeyEvent *event) override;
     void mouseDoubleClickEvent(QMouseEvent *) override;

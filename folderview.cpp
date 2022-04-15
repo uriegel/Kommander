@@ -1,4 +1,5 @@
 #include <QKeyEvent>
+#include <QDir>
 
 #include "folderview.h"
 #include "folderviewmodel.h"
@@ -83,12 +84,35 @@ void FolderView::mouseDoubleClickEvent(QMouseEvent *)
 
 void FolderView::onAction()
 {
-    auto rows = selectionModel()->selectedRows();
-    if (rows.count() == 0)
+    if (getCurrentItemType() != ItemType::Item)
     {
-        auto row = currentIndex().row();
-        auto name = model()->data(model()->index(row, 0));
-        auto path = folderViewModel->getPath();
-        auto wass = name;
+        auto wass = getCurrentPath();
     }
+
+//    auto rows = selectionModel()->selectedRows();
+//    if (rows.count() == 0)
+//    {
+//    }
+}
+
+QString FolderView::getCurrentPath() const
+{
+    return getPath(currentIndex().row());
+}
+
+QString FolderView::getPath(int row) const
+{
+    auto name = model()->data(model()->index(row, 0));
+    auto path = folderViewModel->getPath();
+    return QDir::cleanPath(*path + "/" + name.toString());
+}
+
+ItemType FolderView::getItemType(int row) const
+{
+    return (ItemType)model()->data(model()->index(row, 0), QtRoleItemType).toInt();
+}
+
+ItemType FolderView::getCurrentItemType() const
+{
+    return getItemType(currentIndex().row());
 }

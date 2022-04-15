@@ -31,6 +31,7 @@ HEADERS += \
     folderviewmodel.h \
     itemdelegate.h \
     mainwindow.h \
+    types.h \
     variantitem.h
 
 FORMS += \

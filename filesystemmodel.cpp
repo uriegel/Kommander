@@ -12,6 +12,7 @@
 #include "exifdatetimereader.h"
 #include "exifdateitem.h"
 #include "folderview.h"
+#include "types.h"
 
 using namespace std;
 
@@ -56,7 +57,7 @@ FileSystemModel::FileSystemModel(QObject* parent)
         list.append(new VariantItem(QVariant(0)));
         list.append(new VariantItem(QVariant()));
 
-        list[0]->setData(QVariant(1), Qt::UserRole+1);
+        list[0]->setData(QVariant((int)ItemType::Parent), QtRoleItemType);
         appendRow(list);
 
         for (auto i = 0; i < numRows; i++) {
@@ -72,7 +73,7 @@ FileSystemModel::FileSystemModel(QObject* parent)
             list.append(new VariantItem(QVariant(size)));
             list.append(new ExifDateItem(QVariant(lastModified)));
 
-            list[0]->setData(QVariant(fileModel->isDir(index) ? 1 : 2), Qt::UserRole+1);
+            list[0]->setData(QVariant(int(fileModel->isDir(index) ? ItemType::Folder : ItemType::Item)), QtRoleItemType);
             appendRow(list);
         }
 
