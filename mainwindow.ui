@@ -58,16 +58,6 @@
       </property>
      </widget>
     </item>
-    <item>
-     <widget class="QPushButton" name="changeModelButton">
-      <property name="focusPolicy">
-       <enum>Qt::ClickFocus</enum>
-      </property>
-      <property name="text">
-       <string>&amp;Change Model</string>
-      </property>
-     </widget>
-    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
