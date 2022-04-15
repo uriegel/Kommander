@@ -14,17 +14,17 @@ struct ExtendedInfo
     QDateTime exifDate;
 };
 
+class FolderView;
+
 class FileSystemModel : public FolderViewModel
 {
     Q_OBJECT
 public:
-    static QAbstractItemModel* create(QObject* parent = nullptr);
+    static void attach(FolderView* folderView);
 private:
     FileSystemModel(QObject* parent = nullptr);
 
     void getExtendedInfos();
-
-    QString path;
 
 signals:
     void extendedInfosRetrieved();

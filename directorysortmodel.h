@@ -15,6 +15,7 @@ public:
 private:
     bool lessThenByOrder(bool less) const;
     bool descending;
+    int column;
 };
 
 #endif // DIRECTORYSORTMODEL_H

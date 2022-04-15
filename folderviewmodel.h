@@ -10,6 +10,10 @@ class FolderViewModel : public QStandardItemModel
 public:
     FolderViewModel(QObject* parent = nullptr);
     ~FolderViewModel();
+
+    const QString* getPath() const;
+protected:
+    QString path;
 };
 
 #endif // FOLDERVIEWMODEL_H

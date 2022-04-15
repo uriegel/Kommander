@@ -9,3 +9,8 @@ FolderViewModel::~FolderViewModel()
 {
     printf("~FolderViewModel\n");
 }
+
+const QString* FolderViewModel::getPath() const
+{
+    return &path ;
+}

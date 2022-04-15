@@ -1,4 +1,5 @@
 #include "directorysortmodel.h"
+#include "filesystemmodel.h"
 
 DirectorySortModel::DirectorySortModel(QObject* parent)
     : QSortFilterProxyModel(parent)
@@ -15,6 +16,7 @@ DirectorySortModel::~DirectorySortModel()
 void DirectorySortModel::sort(int column, Qt::SortOrder order)
 {
     descending = order == Qt::DescendingOrder;
+    this->column = column;
     QSortFilterProxyModel::sort(column, order);
 }
 
@@ -29,7 +31,16 @@ bool DirectorySortModel::lessThan(const QModelIndex &left, const QModelIndex &ri
     auto rightType = right.model()->data(right.model()->index(right.row(), 0), Qt::UserRole+1);
 
     if (leftType == 2 && rightType == 2)
-        return QSortFilterProxyModel::lessThan(left, right);
+    {
+        if (column == 0)
+        {
+            auto leftFile = left.model()->data(left.model()->index(left.row(), 0), Qt::DisplayRole).toString();
+            auto rightFile = right.model()->data(right.model()->index(right.row(), 0), Qt::DisplayRole).toString();
+            return QString::localeAwareCompare(leftFile, rightFile) < 0;
+        }
+        else
+            return QSortFilterProxyModel::lessThan(left, right);
+    }
     else if (leftType == 1 && rightType == 1)
     {
         auto leftDir = left.model()->data(left.model()->index(left.row(), 0), Qt::DisplayRole).toString();
@@ -47,3 +58,4 @@ bool DirectorySortModel::lessThan(const QModelIndex &left, const QModelIndex &ri
     else
         return lessThenByOrder(false);
 }
+

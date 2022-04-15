@@ -1,6 +1,8 @@
 #include <QKeyEvent>
 
 #include "folderview.h"
+#include "folderviewmodel.h"
+#include "directorysortmodel.h"
 
 FolderView::FolderView(QWidget* parent)
     : QTreeView(parent)
@@ -8,6 +10,12 @@ FolderView::FolderView(QWidget* parent)
     setSelectionMode(MultiSelection);
     setAllColumnsShowFocus(true);
     setTabKeyNavigation(false);
+}
+
+void FolderView::setModels(FolderViewModel* folderViewModel, QAbstractItemModel* model)
+{
+    this->folderViewModel = folderViewModel;
+    QTreeView::setModel(model);
 }
 
 void FolderView::keyPressEvent(QKeyEvent *event)
@@ -59,8 +67,28 @@ void FolderView::keyPressEvent(QKeyEvent *event)
         else
             QTreeView::keyPressEvent(event);
     break;
+    case Qt::Key_Return:
+        onAction();
+    break;
     default:
         QTreeView::keyPressEvent(event);
     break;
+    }
+}
+
+void FolderView::mouseDoubleClickEvent(QMouseEvent *)
+{
+    onAction();
+}
+
+void FolderView::onAction()
+{
+    auto rows = selectionModel()->selectedRows();
+    if (rows.count() == 0)
+    {
+        auto row = currentIndex().row();
+        auto name = model()->data(model()->index(row, 0));
+        auto path = folderViewModel->getPath();
+        auto wass = name;
     }
 }

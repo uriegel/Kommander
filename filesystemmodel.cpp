@@ -1,23 +1,32 @@
 #include <memory>
 #include <vector>
 #include <QFileSystemModel>
+#include <QHeaderView>
 #include <QThreadPool>
 #include <QThread>
 
 #include "filesystemmodel.h"
 #include "directorysortmodel.h"
+#include "dateitemdelegate.h"
 #include "variantitem.h"
 #include "exifdatetimereader.h"
 #include "exifdateitem.h"
+#include "folderview.h"
 
 using namespace std;
 
-QAbstractItemModel* FileSystemModel::create(QObject* parent)
+void FileSystemModel::attach(FolderView* folderView)
 {
-    auto model = new FileSystemModel(parent);
-    auto sortModel = new DirectorySortModel(parent);
+    auto model = new FileSystemModel(folderView);
+    auto sortModel = new DirectorySortModel(folderView);
     sortModel->setSourceModel(model);
-    return sortModel;
+    folderView->setModels(model, sortModel);
+    folderView->setItemDelegateForColumn(0, new ItemDelegate(folderView));
+    folderView->setItemDelegateForColumn(1, new ItemDelegate(folderView));
+    folderView->setItemDelegateForColumn(2, new DateItemDelegate(folderView));
+    folderView->header()->setSortIndicator(0, Qt::AscendingOrder);
+    folderView->setColumnWidth(0, 300);
+    folderView->setColumnWidth(1, 140);
 }
 
 FileSystemModel::FileSystemModel(QObject* parent)
@@ -33,8 +42,8 @@ FileSystemModel::FileSystemModel(QObject* parent)
     fileModel->setFilter(QDir::Files|QDir::Dirs|QDir::Hidden|QDir::NoDotAndDotDot);
 
     fileModel->setNameFilterDisables(false);
-    //path = QDir::cleanPath(QDir::homePath() + "/Dokumente");
-    path = QDir::cleanPath(QDir::homePath());
+    path = QDir::cleanPath(QDir::homePath() + "/Dokumente");
+    //path = QDir::cleanPath(QDir::homePath());
     //path = QDir::cleanPath("/media/uwe/Home/Bilder/Fotos/2017/Abu Dabbab/");
 
     fileModel->setRootPath(path);

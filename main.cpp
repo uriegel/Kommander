@@ -10,9 +10,10 @@ int main(int argc, char *argv[])
     return a.exec();
 }
 
-// TODO Sorting Umlaute correct in files
-// TODO change path by enter and double click
+// TODO helper funcitons getPath(index), isDir(index)
+// TODO Base class FolderViewModel with function changePath
 // TODO Edit control to show path and change it -> tab
+// TODO two folder views, focus handling
 // TODO show hidden semi transparent/filter hidden
 // TODO new model: show drives
 // TODO Restrict view by entering letters
