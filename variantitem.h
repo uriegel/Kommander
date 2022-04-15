@@ -10,7 +10,8 @@ public:
 
     ~VariantItem();
 
-    virtual QVariant data(int role = Qt::UserRole + 1) const;
+    QVariant data(int role = Qt::UserRole + 1) const override;
+    void setData(const QVariant &value, int role = Qt::UserRole + 1) override;
 
 private:
     QVariant var;

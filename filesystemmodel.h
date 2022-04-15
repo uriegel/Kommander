@@ -2,10 +2,17 @@
 #define FILESYSTEMMODEL_H
 
 #include <QObject>
+#include <QDateTime>
 
 #include "folderviewmodel.h"
 #include "directorysortmodel.h"
 
+struct ExtendedInfo
+{
+    int index;
+    QString file;
+    QDateTime exifDate;
+};
 
 class FileSystemModel : public FolderViewModel
 {
@@ -19,10 +26,8 @@ private:
 
     QString path;
 
-public slots:
-    void setSalary(int newSalary);
 signals:
-    void salaryChanged(int newSalary);
+    void extendedInfosRetrieved();
 };
 
 #endif // FILESYSTEMMODEL_H

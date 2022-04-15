@@ -1,11 +1,16 @@
+#include <memory>
+#include <vector>
 #include <QFileSystemModel>
-#include <QDateTime>
 #include <QThreadPool>
 #include <QThread>
 
 #include "filesystemmodel.h"
 #include "directorysortmodel.h"
 #include "variantitem.h"
+#include "exifdatetimereader.h"
+#include "exifdateitem.h"
+
+using namespace std;
 
 QAbstractItemModel* FileSystemModel::create(QObject* parent)
 {
@@ -23,11 +28,10 @@ FileSystemModel::FileSystemModel(QObject* parent)
     setHorizontalHeaderItem(2, new QStandardItem(tr("Datum")));
 
     auto fileModel = new QFileSystemModel(this);
-    path = QDir::homePath() + "/Dokumente";
-    //path = "/media/uwe/Home/Bilder/Fotos/2017/Abu Dabbab/";
-    fileModel->setRootPath(path);
+    //path = QDir::cleanPath(QDir::homePath() + "/Dokumente");
+    path = QDir::cleanPath("/media/uwe/Home/Bilder/Fotos/2017/Abu Dabbab/");
 
-    connect(this, SIGNAL(salaryChanged(int)), this, SLOT(setSalary(int)));
+    fileModel->setRootPath(path);
 
     connect(fileModel, &QFileSystemModel::directoryLoaded, this, [this, fileModel](const QString &directory) {
         auto parentIndex = fileModel->index(directory);
@@ -50,7 +54,7 @@ FileSystemModel::FileSystemModel(QObject* parent)
             auto list = QList<QStandardItem*>();
             list.append(new QStandardItem(icon, content));
             list.append(new VariantItem(QVariant(size)));
-            list.append(new VariantItem(QVariant(lastModified)));
+            list.append(new ExifDateItem(QVariant(lastModified)));
 
             list[0]->setData(QVariant(fileModel->isDir(index) ? 1 : 2), Qt::UserRole+1);
             appendRow(list);
@@ -63,16 +67,39 @@ FileSystemModel::FileSystemModel(QObject* parent)
 
 void FileSystemModel::getExtendedInfos()
 {
-    QThreadPool::globalInstance()->start([this]() {
-        QThread::sleep(4);
-        emit salaryChanged(345);
+    auto extendedInfos = make_shared<vector<ExtendedInfo>>();
+    for (auto i = 0; i < rowCount(); i++)
+    {
+        auto name = data(index(i, 0), Qt::DisplayRole).toString();
+        if (name.endsWith("jpg", Qt::CaseInsensitive))
+            extendedInfos->push_back({i, path + "/"  + name, QDateTime() });
+    }
+
+    auto setExtendedInfos = [extendedInfos, this]()
+    {
+        auto insertExif = [this](ExtendedInfo& info)
+        {
+            if (info.exifDate.isValid())
+                setData(index(info.index, 2), QVariant(info.exifDate), Qt::EditRole);
+        };
+
+        for_each(extendedInfos->begin(), extendedInfos->end(), insertExif);
+        emit dataChanged(index(0, 0), index(rowCount() - 1, 2));
+    };
+
+    connect(this, &FileSystemModel::extendedInfosRetrieved, this, setExtendedInfos);
+
+    QThreadPool::globalInstance()->start([extendedInfos, setExtendedInfos, this]() {
+//        QThread::sleep(4);
+
+        auto checkExif = [](ExtendedInfo& info)
+        {
+            info.exifDate = getExifDateTime(info.file);
+        };
+
+        for_each(extendedInfos->begin(), extendedInfos->end(), checkExif);
+        emit extendedInfosRetrieved();
+       // TODO disconnect(this, &FileSystemModel::extendedInfosRetrieved, this, setExtendedInfos);
     });
 }
 
-void FileSystemModel::setSalary(int newSalary)
-{
-    auto affe = data(index(5, 0), Qt::DisplayRole);
-    setData(index(5, 0), "Habs geändert", Qt::DisplayRole);
-    auto affe4 = data(index(5, 0), Qt::DisplayRole);
-    emit dataChanged(index(5, 0), index(5, 1));
-}

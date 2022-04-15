@@ -11,6 +11,8 @@ CONFIG += c++11
 SOURCES += \
     dateitemdelegate.cpp \
     directorysortmodel.cpp \
+    exifdateitem.cpp \
+    exifdatetimereader.cpp \
     filesystemmodel.cpp \
     folderview.cpp \
     folderviewmodel.cpp \
@@ -22,6 +24,8 @@ SOURCES += \
 HEADERS += \
     dateitemdelegate.h \
     directorysortmodel.h \
+    exifdateitem.h \
+    exifdatetimereader.h \
     filesystemmodel.h \
     folderview.h \
     folderviewmodel.h \
