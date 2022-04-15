@@ -1,5 +1,7 @@
 #include <QFileSystemModel>
 #include <QDateTime>
+#include <QThreadPool>
+#include <QThread>
 
 #include "filesystemmodel.h"
 #include "directorysortmodel.h"
@@ -21,9 +23,11 @@ FileSystemModel::FileSystemModel(QObject* parent)
     setHorizontalHeaderItem(2, new QStandardItem(tr("Datum")));
 
     auto fileModel = new QFileSystemModel(this);
-    auto path = QDir::homePath() + "/Dokumente";
-    //auto path = "/media/uwe/Home/Bilder/Fotos/2017/Abu Dabbab/";
+    path = QDir::homePath() + "/Dokumente";
+    //path = "/media/uwe/Home/Bilder/Fotos/2017/Abu Dabbab/";
     fileModel->setRootPath(path);
+
+    connect(this, SIGNAL(salaryChanged(int)), this, SLOT(setSalary(int)));
 
     connect(fileModel, &QFileSystemModel::directoryLoaded, this, [this, fileModel](const QString &directory) {
         auto parentIndex = fileModel->index(directory);
@@ -51,7 +55,24 @@ FileSystemModel::FileSystemModel(QObject* parent)
             list[0]->setData(QVariant(fileModel->isDir(index) ? 1 : 2), Qt::UserRole+1);
             appendRow(list);
         }
+
+        getExtendedInfos();
         delete fileModel;
     });
 }
 
+void FileSystemModel::getExtendedInfos()
+{
+    QThreadPool::globalInstance()->start([this]() {
+        QThread::sleep(4);
+        emit salaryChanged(345);
+    });
+}
+
+void FileSystemModel::setSalary(int newSalary)
+{
+    auto affe = data(index(5, 0), Qt::DisplayRole);
+    setData(index(5, 0), "Habs geändert", Qt::DisplayRole);
+    auto affe4 = data(index(5, 0), Qt::DisplayRole);
+    emit dataChanged(index(5, 0), index(5, 1));
+}
