@@ -10,8 +10,9 @@ int main(int argc, char *argv[])
     return a.exec();
 }
 
-// TODO helper funcitons isDir(index)
-// TODO Base class FolderViewModel with function changePath
+// TODO Icon and title
+// TODO Select first item when path changed
+// TODO Select last item when path changed to parent
 // TODO Edit control to show path and change it -> tab
 // TODO two folder views, focus handling
 // TODO show hidden semi transparent/filter hidden

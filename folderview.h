@@ -18,7 +18,7 @@ public:
     QString getCurrentPath() const;
     ItemType getItemType(int row) const;
     ItemType getCurrentItemType() const;
-
+    void changePath(const QString& path);
 protected:
     void keyPressEvent(QKeyEvent *event) override;
     void mouseDoubleClickEvent(QMouseEvent *) override;

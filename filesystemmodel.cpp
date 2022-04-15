@@ -36,20 +36,15 @@ FileSystemModel::FileSystemModel(QObject* parent)
     setHorizontalHeaderItem(0, new QStandardItem(tr("Name")));
     setHorizontalHeaderItem(1, new QStandardItem(tr("Größe")));
     setHorizontalHeaderItem(2, new QStandardItem(tr("Datum")));
+}
 
+void FileSystemModel::changePath(const QString& path)
+{
     auto fileModel = new QFileSystemModel(this);
-
-
-    fileModel->setFilter(QDir::Files|QDir::Dirs|QDir::Hidden|QDir::NoDotAndDotDot);
-
-    fileModel->setNameFilterDisables(false);
-    path = QDir::cleanPath(QDir::homePath() + "/Dokumente");
-    //path = QDir::cleanPath(QDir::homePath());
-    //path = QDir::cleanPath("/media/uwe/Home/Bilder/Fotos/2017/Abu Dabbab/");
-
-    fileModel->setRootPath(path);
-
-    connect(fileModel, &QFileSystemModel::directoryLoaded, this, [this, fileModel](const QString &directory) {
+    //fileModel->setFilter(QDir::Files|QDir::Dirs|QDir::Hidden|QDir::NoDotAndDotDot);
+    connect(fileModel, &QFileSystemModel::directoryLoaded, this, [this, fileModel, path](const QString &directory) {
+        removeRows(0, rowCount());
+        this->path = path;
         auto parentIndex = fileModel->index(directory);
         int numRows = fileModel->rowCount(parentIndex);
         auto list = QList<QStandardItem*>();
@@ -67,7 +62,6 @@ FileSystemModel::FileSystemModel(QObject* parent)
             auto size = fileModel->size(index);
             auto lastModified = fileModel->lastModified(index);
 
-
             auto list = QList<QStandardItem*>();
             list.append(new QStandardItem(icon, content));
             list.append(new VariantItem(QVariant(size)));
@@ -77,9 +71,12 @@ FileSystemModel::FileSystemModel(QObject* parent)
             appendRow(list);
         }
 
+        disconnect(fileModel, &QFileSystemModel::directoryLoaded, nullptr, nullptr);
+        disconnect(this, &FileSystemModel::extendedInfosRetrieved, nullptr, nullptr);
         getExtendedInfos();
         delete fileModel;
     });
+    fileModel->setRootPath(path);
 }
 
 void FileSystemModel::getExtendedInfos()
@@ -116,7 +113,7 @@ void FileSystemModel::getExtendedInfos()
 
         for_each(extendedInfos->begin(), extendedInfos->end(), checkExif);
         emit extendedInfosRetrieved();
-       // TODO disconnect(this, &FileSystemModel::extendedInfosRetrieved, this, setExtendedInfos);
+        disconnect(this, &FileSystemModel::extendedInfosRetrieved, nullptr, nullptr);
     });
 }
 

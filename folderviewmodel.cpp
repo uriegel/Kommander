@@ -14,3 +14,4 @@ const QString* FolderViewModel::getPath() const
 {
     return &path ;
 }
+

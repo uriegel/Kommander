@@ -85,14 +85,17 @@ void FolderView::mouseDoubleClickEvent(QMouseEvent *)
 void FolderView::onAction()
 {
     if (getCurrentItemType() != ItemType::Item)
-    {
-        auto wass = getCurrentPath();
-    }
+        changePath(getCurrentPath());
 
 //    auto rows = selectionModel()->selectedRows();
 //    if (rows.count() == 0)
 //    {
 //    }
+}
+
+void FolderView::changePath(const QString& path)
+{
+    this->folderViewModel->changePath(path);
 }
 
 QString FolderView::getCurrentPath() const
