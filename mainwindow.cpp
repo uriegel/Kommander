@@ -44,11 +44,12 @@ void MainWindow::on_changeModel()
 {
     auto model = new QFileSystemModel(this);
     //auto path = "/media/uwe/Home/Bilder/Fotos/2017/Abu Dabbab/";
-    auto path = QDir::homePath() + "/Dokumente";
+    auto path = QDir::homePath();
     model->setRootPath(path);
-
+    model->setNameFilterDisables(true);
     auto oldModel = ui->folderView->model();
     ui->folderView->setModel(model);
+    model->setFilter(QDir::Files|QDir::Dirs|QDir::Hidden|QDir::NoDotAndDotDot);
     delete oldModel;
     ui->folderView->setRootIndex(model->index(path));
 }

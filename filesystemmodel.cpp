@@ -28,8 +28,14 @@ FileSystemModel::FileSystemModel(QObject* parent)
     setHorizontalHeaderItem(2, new QStandardItem(tr("Datum")));
 
     auto fileModel = new QFileSystemModel(this);
+
+
+    fileModel->setFilter(QDir::Files|QDir::Dirs|QDir::Hidden|QDir::NoDotAndDotDot);
+
+    fileModel->setNameFilterDisables(false);
     //path = QDir::cleanPath(QDir::homePath() + "/Dokumente");
-    path = QDir::cleanPath("/media/uwe/Home/Bilder/Fotos/2017/Abu Dabbab/");
+    path = QDir::cleanPath(QDir::homePath());
+    //path = QDir::cleanPath("/media/uwe/Home/Bilder/Fotos/2017/Abu Dabbab/");
 
     fileModel->setRootPath(path);
 
@@ -50,6 +56,7 @@ FileSystemModel::FileSystemModel(QObject* parent)
             auto icon = fileModel->fileIcon(index);
             auto size = fileModel->size(index);
             auto lastModified = fileModel->lastModified(index);
+
 
             auto list = QList<QStandardItem*>();
             list.append(new QStandardItem(icon, content));
