@@ -12,7 +12,9 @@ int main(int argc, char *argv[])
     return a.exec();
 }
 
-// TODO Edit control to show path and change it, focus handling
+// TODO Edit control styling
+// TODO Edit control focus handling
+// TODO Path changed: normalize path /../../../home
 // TODO Suppress size for directories
 // TODO Format date time
 // TODO Format size with dots, right aligned

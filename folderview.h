@@ -10,6 +10,7 @@ class FolderViewModel;
 
 class FolderView : public QTreeView
 {
+    Q_OBJECT
 public:
     FolderView(QWidget* parent = nullptr);
 
@@ -28,6 +29,8 @@ private:
     FolderViewModel* folderViewModel;
 public slots:
     void onItemsRetrieved(QString previousFolder);
+signals:
+    void pathChanged(QString path);
 };
 
 #endif // FOLDERVIEW_H

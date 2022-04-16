@@ -128,6 +128,7 @@ void FolderView::onItemsRetrieved(QString previousFolder)
 {
     auto selectedItem = qMax(0, previousFolder.length() > 0 ? findItemIndex(previousFolder) : 0);
     selectionModel()->setCurrentIndex(model()->index(selectedItem, 0), QItemSelectionModel::Current);
+    emit pathChanged(*folderViewModel->getPath());
 }
 
 int FolderView::findItemIndex(QString itemToFind)
