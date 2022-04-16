@@ -97,7 +97,7 @@ void FolderView::onAction()
 //    }
 }
 
-void FolderView::changePath(const QString& path)
+void FolderView::changePath(QString path)
 {
     this->folderViewModel->changePath(path);
 }

@@ -19,7 +19,6 @@ public:
     QString getCurrentPath() const;
     ItemType getItemType(int row) const;
     ItemType getCurrentItemType() const;
-    void changePath(const QString& path);
 protected:
     void keyPressEvent(QKeyEvent *event) override;
     void mouseDoubleClickEvent(QMouseEvent *) override;
@@ -29,6 +28,7 @@ private:
     FolderViewModel* folderViewModel;
 public slots:
     void onItemsRetrieved(QString previousFolder);
+    void changePath(QString path);
 signals:
     void pathChanged(QString path);
 };
