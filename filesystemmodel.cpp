@@ -40,9 +40,10 @@ FileSystemModel::FileSystemModel(QObject* parent)
 
 void FileSystemModel::changePath(const QString& path)
 {
+    auto previousPath = this->path;
     auto fileModel = new QFileSystemModel(this);
     //fileModel->setFilter(QDir::Files|QDir::Dirs|QDir::Hidden|QDir::NoDotAndDotDot);
-    connect(fileModel, &QFileSystemModel::directoryLoaded, this, [this, fileModel, path](const QString &directory) {
+    connect(fileModel, &QFileSystemModel::directoryLoaded, this, [this, fileModel, path, previousPath](const QString &directory) {
         removeRows(0, rowCount());
         this->path = path;
         auto parentIndex = fileModel->index(directory);
@@ -71,6 +72,15 @@ void FileSystemModel::changePath(const QString& path)
             appendRow(list);
         }
 
+        auto trimSlash = [](QString str)
+        {
+            if (str.length() > 0 && str[0] == '/')
+                return str.mid(1);
+            else
+                return str;
+        };
+
+        emit itemsRetrieved(trimSlash(previousPath.startsWith(path) ? previousPath.right(previousPath.length() - path.length()) : ""));
         disconnect(fileModel, &QFileSystemModel::directoryLoaded, nullptr, nullptr);
         disconnect(this, &FileSystemModel::extendedInfosRetrieved, nullptr, nullptr);
         getExtendedInfos();

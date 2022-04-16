@@ -7,6 +7,7 @@
 
 FolderView::FolderView(QWidget* parent)
     : QTreeView(parent)
+    , folderViewModel(nullptr)
 {
     setSelectionMode(MultiSelection);
     setAllColumnsShowFocus(true);
@@ -15,7 +16,10 @@ FolderView::FolderView(QWidget* parent)
 
 void FolderView::setModels(FolderViewModel* folderViewModel, QAbstractItemModel* model)
 {
+    if (this->folderViewModel)
+        disconnect(this->folderViewModel, &FolderViewModel::itemsRetrieved, this, &FolderView::onItemsRetrieved);
     this->folderViewModel = folderViewModel;
+    connect(this->folderViewModel, &FolderViewModel::itemsRetrieved, this, &FolderView::onItemsRetrieved);
     QTreeView::setModel(model);
 }
 
@@ -118,4 +122,21 @@ ItemType FolderView::getItemType(int row) const
 ItemType FolderView::getCurrentItemType() const
 {
     return getItemType(currentIndex().row());
+}
+
+void FolderView::onItemsRetrieved(QString previousFolder)
+{
+    auto selectedItem = qMax(0, previousFolder.length() > 0 ? findItemIndex(previousFolder) : 0);
+    selectionModel()->setCurrentIndex(model()->index(selectedItem, 0), QItemSelectionModel::Current);
+}
+
+int FolderView::findItemIndex(QString itemToFind)
+{
+    for (auto i = 0; i < model()->rowCount(); i++)
+    {
+        auto name = model()->data(model()->index(i, 0));
+        if (name.toString().compare(itemToFind) == 0)
+            return i;
+    }
+    return -1;
 }

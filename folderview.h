@@ -22,9 +22,12 @@ public:
 protected:
     void keyPressEvent(QKeyEvent *event) override;
     void mouseDoubleClickEvent(QMouseEvent *) override;
+    int findItemIndex(QString itemToFind);
 private:
     void onAction();
     FolderViewModel* folderViewModel;
+public slots:
+    void onItemsRetrieved(QString previousFolder);
 };
 
 #endif // FOLDERVIEW_H

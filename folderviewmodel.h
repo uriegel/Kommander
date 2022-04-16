@@ -15,6 +15,8 @@ public:
     virtual void changePath(const QString& path) = 0;
 protected:
     QString path;
+signals:
+    void itemsRetrieved(QString previousFolder = "");
 };
 
 #endif // FOLDERVIEWMODEL_H

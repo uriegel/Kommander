@@ -12,9 +12,11 @@ int main(int argc, char *argv[])
     return a.exec();
 }
 
-// TODO Select first item when path changed
-// TODO Select last item when path changed to parent
 // TODO Edit control to show path and change it -> tab
+// TODO Suppress size for directories
+// TODO Format date time
+// TODO Save window dimensions
+// TODO Save Model header sizes
 // TODO two folder views, focus handling
 // TODO show hidden semi transparent/filter hidden
 // TODO new model: show drives
