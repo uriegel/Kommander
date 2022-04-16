@@ -13,8 +13,12 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    FileSystemModel::attach(ui->folderView);
-    ui->folderView->changePath(QDir::cleanPath(QDir::homePath()));
+
+    FileSystemModel::attach(ui->leftFolderView);
+    ui->leftFolderView->changePath(QDir::cleanPath(QDir::homePath()));
+
+    FileSystemModel::attach(ui->rightFolderView);
+    ui->rightFolderView->changePath(QDir::cleanPath(QDir::homePath()));
 }
 
 MainWindow::~MainWindow()

@@ -26,16 +26,16 @@ void FileSystemModel::attach(FolderView* folderView)
     folderView->setItemDelegateForColumn(1, new ItemDelegate(folderView));
     folderView->setItemDelegateForColumn(2, new DateItemDelegate(folderView));
     folderView->header()->setSortIndicator(0, Qt::AscendingOrder);
-    folderView->setColumnWidth(0, 300);
-    folderView->setColumnWidth(1, 140);
+    folderView->setColumnWidth(0, 160);
+    folderView->setColumnWidth(1, 100);
 }
 
 FileSystemModel::FileSystemModel(QObject* parent)
     : FolderViewModel(parent)
 {
     setHorizontalHeaderItem(0, new QStandardItem(tr("Name")));
-    setHorizontalHeaderItem(1, new QStandardItem(tr("Größe")));
-    setHorizontalHeaderItem(2, new QStandardItem(tr("Datum")));
+    setHorizontalHeaderItem(1, new QStandardItem(tr("Datum")));
+    setHorizontalHeaderItem(2, new QStandardItem(tr("Größe")));
 }
 
 void FileSystemModel::changePath(const QString& path)
@@ -50,8 +50,8 @@ void FileSystemModel::changePath(const QString& path)
         int numRows = fileModel->rowCount(parentIndex);
         auto list = QList<QStandardItem*>();
         list.append(new QStandardItem(QIcon(":/images/parent.svg"), ".."));
-        list.append(new VariantItem(QVariant(0)));
         list.append(new VariantItem(QVariant()));
+        list.append(new VariantItem(QVariant(0)));
 
         list[0]->setData(QVariant((int)ItemType::Parent), QtRoleItemType);
         appendRow(list);
@@ -65,8 +65,8 @@ void FileSystemModel::changePath(const QString& path)
 
             auto list = QList<QStandardItem*>();
             list.append(new QStandardItem(icon, content));
-            list.append(new VariantItem(QVariant(size)));
             list.append(new ExifDateItem(QVariant(lastModified)));
+            list.append(new VariantItem(QVariant(size)));
 
             list[0]->setData(QVariant(int(fileModel->isDir(index) ? ItemType::Folder : ItemType::Item)), QtRoleItemType);
             appendRow(list);
@@ -104,11 +104,11 @@ void FileSystemModel::getExtendedInfos()
         auto insertExif = [this](ExtendedInfo& info)
         {
             if (info.exifDate.isValid())
-                setData(index(info.index, 2), QVariant(info.exifDate), Qt::EditRole);
+                setData(index(info.index, 1), QVariant(info.exifDate), Qt::EditRole);
         };
 
         for_each(extendedInfos->begin(), extendedInfos->end(), insertExif);
-        emit dataChanged(index(0, 0), index(rowCount() - 1, 2));
+        emit dataChanged(index(0, 0), index(rowCount() - 1, 1));
     };
 
     connect(this, &FileSystemModel::extendedInfosRetrieved, this, setExtendedInfos);

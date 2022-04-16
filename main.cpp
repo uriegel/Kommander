@@ -12,12 +12,13 @@ int main(int argc, char *argv[])
     return a.exec();
 }
 
-// TODO Edit control to show path and change it -> tab
+// TODO Edit control to show path and change it, focus handling
 // TODO Suppress size for directories
 // TODO Format date time
+// TODO Format size with dots, right aligned
 // TODO Save window dimensions
 // TODO Save Model header sizes
-// TODO two folder views, focus handling
+// TODO Viewer
 // TODO show hidden semi transparent/filter hidden
 // TODO new model: show drives
 // TODO Restrict view by entering letters
