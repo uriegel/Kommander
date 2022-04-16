@@ -21,7 +21,7 @@ class FileSystemModel : public FolderViewModel
     Q_OBJECT
 public:
     static void attach(FolderView* folderView);
-    void changePath(const QString& path) override;
+    void changePath(QString path) override;
 private:
     FileSystemModel(QObject* parent = nullptr);
 

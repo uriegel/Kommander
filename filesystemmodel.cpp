@@ -38,9 +38,21 @@ FileSystemModel::FileSystemModel(QObject* parent)
     setHorizontalHeaderItem(2, new QStandardItem(tr("Größe")));
 }
 
-void FileSystemModel::changePath(const QString& path)
+void FileSystemModel::changePath(QString path)
 {
+    auto removeRootParent = [](QString path)
+    {
+        return path.compare("/..") == 0
+                ? "/"
+                : path.startsWith("/..")
+                ? path.mid(3)
+                : path;
+    };
+
+    path = removeRootParent(path);
     auto previousPath = this->path;
+    if (path.compare(previousPath) == 0)
+        return;
     auto fileModel = new QFileSystemModel(this);
     //fileModel->setFilter(QDir::Files|QDir::Dirs|QDir::Hidden|QDir::NoDotAndDotDot);
     connect(fileModel, &QFileSystemModel::directoryLoaded, this, [this, fileModel, path, previousPath](const QString &directory) {

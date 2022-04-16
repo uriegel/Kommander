@@ -12,7 +12,7 @@ public:
     ~FolderViewModel();
 
     const QString* getPath() const;
-    virtual void changePath(const QString& path) = 0;
+    virtual void changePath(QString path) = 0;
 protected:
     QString path;
 signals:
