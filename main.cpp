@@ -13,7 +13,6 @@ int main(int argc, char *argv[])
 }
 
 // TODO Suppress size for directories
-// TODO Format date time
 // TODO Format size with dots, right aligned
 // TODO Save window dimensions
 // TODO Save Model header sizes

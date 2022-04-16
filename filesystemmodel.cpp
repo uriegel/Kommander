@@ -24,7 +24,7 @@ void FileSystemModel::attach(FolderView* folderView)
     folderView->setModels(model, sortModel);
     folderView->setItemDelegateForColumn(0, new ItemDelegate(folderView));
     folderView->setItemDelegateForColumn(1, new ItemDelegate(folderView));
-    folderView->setItemDelegateForColumn(2, new DateItemDelegate(folderView));
+    folderView->setItemDelegateForColumn(2, new ItemDelegate(folderView));
     folderView->header()->setSortIndicator(0, Qt::AscendingOrder);
     folderView->setColumnWidth(0, 160);
     folderView->setColumnWidth(1, 100);
