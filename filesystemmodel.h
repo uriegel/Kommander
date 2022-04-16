@@ -26,6 +26,7 @@ private:
     FileSystemModel(QObject* parent = nullptr);
 
     void getExtendedInfos();
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
 signals:
     void extendedInfosRetrieved();

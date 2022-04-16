@@ -18,6 +18,7 @@ SOURCES += \
     itemdelegate.cpp \
     main.cpp \
     mainwindow.cpp \
+    sizedelegate.cpp \
     variantitem.cpp
 
 HEADERS += \
@@ -29,6 +30,7 @@ HEADERS += \
     folderviewmodel.h \
     itemdelegate.h \
     mainwindow.h \
+    sizedelegate.h \
     types.h \
     variantitem.h
 

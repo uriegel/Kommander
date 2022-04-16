@@ -7,7 +7,7 @@
 
 #include "filesystemmodel.h"
 #include "directorysortmodel.h"
-#include "dateitemdelegate.h"
+#include "sizedelegate.h"
 #include "variantitem.h"
 #include "exifdatetimereader.h"
 #include "exifdateitem.h"
@@ -24,7 +24,7 @@ void FileSystemModel::attach(FolderView* folderView)
     folderView->setModels(model, sortModel);
     folderView->setItemDelegateForColumn(0, new ItemDelegate(folderView));
     folderView->setItemDelegateForColumn(1, new ItemDelegate(folderView));
-    folderView->setItemDelegateForColumn(2, new ItemDelegate(folderView));
+    folderView->setItemDelegateForColumn(2, new SizeDelegate(folderView));
     folderView->header()->setSortIndicator(0, Qt::AscendingOrder);
     folderView->setColumnWidth(0, 160);
     folderView->setColumnWidth(1, 100);
@@ -63,7 +63,7 @@ void FileSystemModel::changePath(QString path)
         auto list = QList<QStandardItem*>();
         list.append(new QStandardItem(QIcon(":/images/parent.svg"), ".."));
         list.append(new VariantItem(QVariant()));
-        list.append(new VariantItem(QVariant(0)));
+        list.append(new VariantItem(QVariant()));
 
         list[0]->setData(QVariant((int)ItemType::Parent), QtRoleItemType);
         appendRow(list);
@@ -78,7 +78,7 @@ void FileSystemModel::changePath(QString path)
             auto list = QList<QStandardItem*>();
             list.append(new QStandardItem(icon, content));
             list.append(new ExifDateItem(QVariant(lastModified)));
-            list.append(new VariantItem(QVariant(size)));
+            list.append(new VariantItem(!fileModel->isDir(index) ? QVariant(size)  : QVariant()));
 
             list[0]->setData(QVariant(int(fileModel->isDir(index) ? ItemType::Folder : ItemType::Item)), QtRoleItemType);
             appendRow(list);
@@ -139,3 +139,10 @@ void FileSystemModel::getExtendedInfos()
     });
 }
 
+QVariant FileSystemModel::data(const QModelIndex &index, int role) const
+{
+    if (role == Qt::TextAlignmentRole && index.column() == 2)
+        return Qt::AlignRight;
+    else
+        return FolderViewModel::data(index, role);
+}

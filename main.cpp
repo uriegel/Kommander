@@ -12,9 +12,7 @@ int main(int argc, char *argv[])
     return a.exec();
 }
 
-// TODO Suppress size for directories
-// TODO Format size with dots, right aligned
-// TODO Save window dimensions
+// TODO Save window dimensions^
 // TODO Save Model header sizes
 // TODO Viewer
 // TODO show hidden semi transparent/filter hidden
