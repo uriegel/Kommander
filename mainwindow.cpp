@@ -14,6 +14,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    ui->videoWidget->hide();
+
     FileSystemModel::attach(ui->leftFolderView);
     ui->leftFolderView->changePath(QDir::cleanPath(QDir::homePath()));
 
