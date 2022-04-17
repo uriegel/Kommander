@@ -2,8 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
-class QTreeView;
+#include <QLabel>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,5 +19,10 @@ protected:
     bool eventFilter(QObject *target, QEvent *event) override;
 private:
     Ui::MainWindow *ui;
+
+    QLabel statusCount;
+    QLabel statusCurrentItem;
+private slots:
+    void onCurrentItemCountChanged(int folders, int items);
 };
 #endif // MAINWINDOW_H

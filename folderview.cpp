@@ -21,6 +21,7 @@ void FolderView::setModels(FolderViewModel* folderViewModel, QAbstractItemModel*
     this->folderViewModel = folderViewModel;
     connect(this->folderViewModel, &FolderViewModel::itemsRetrieved, this, &FolderView::onItemsRetrieved);
     QTreeView::setModel(model);
+    connect(selectionModel(), &QItemSelectionModel::currentRowChanged, this, &FolderView::onCurrentRowChanged);
 }
 
 void FolderView::keyPressEvent(QKeyEvent *event)
@@ -81,6 +82,12 @@ void FolderView::keyPressEvent(QKeyEvent *event)
     }
 }
 
+void FolderView::focusInEvent(QFocusEvent*)
+{
+    emit currentItemChanged(getCurrentPath());
+    emit currentItemCountChanged(folders, items);
+}
+
 void FolderView::mouseDoubleClickEvent(QMouseEvent *)
 {
     onAction();
@@ -129,6 +136,18 @@ void FolderView::onItemsRetrieved(QString previousFolder)
     auto selectedItem = qMax(0, previousFolder.length() > 0 ? findItemIndex(previousFolder) : 0);
     selectionModel()->setCurrentIndex(model()->index(selectedItem, 0), QItemSelectionModel::Current);
     emit pathChanged(*folderViewModel->getPath());
+
+    folders = 0;
+    items = 0;
+    for (auto i = 0; i < model()->rowCount(); i++)
+    {
+        auto itemType = getItemType(i);
+        if (itemType == ItemType::Folder)
+            folders++;
+        if (itemType == ItemType::Item)
+            items++;
+    }
+    emit currentItemCountChanged(folders, items);
 }
 
 int FolderView::findItemIndex(QString itemToFind)
@@ -140,4 +159,9 @@ int FolderView::findItemIndex(QString itemToFind)
             return i;
     }
     return -1;
+}
+
+void FolderView::onCurrentRowChanged(const QModelIndex& current, const QModelIndex&)
+{
+    emit currentItemChanged(getCurrentPath());
 }

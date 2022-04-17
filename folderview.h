@@ -21,6 +21,7 @@ public:
     ItemType getCurrentItemType() const;
 protected:
     void keyPressEvent(QKeyEvent *event) override;
+    void focusInEvent(QFocusEvent *event) override;
     void mouseDoubleClickEvent(QMouseEvent *) override;
     int findItemIndex(QString itemToFind);
 private:
@@ -29,8 +30,16 @@ private:
 public slots:
     void onItemsRetrieved(QString previousFolder);
     void changePath(QString path);
+private slots:
+    void onCurrentRowChanged(const QModelIndex& current, const QModelIndex& previous);
 signals:
     void pathChanged(QString path);
+    void currentItemChanged(QString itemPath);
+    void currentItemCountChanged(int folders, int items);
+
+private:
+    int folders = 0;
+    int items = 0;
 };
 
 #endif // FOLDERVIEW_H

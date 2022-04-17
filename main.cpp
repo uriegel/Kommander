@@ -12,9 +12,9 @@ int main(int argc, char *argv[])
     return a.exec();
 }
 
-// TODO Save window dimensions^
-// TODO Save Model header sizes
+// TODO Save window dimensions
 // TODO Viewer
 // TODO show hidden semi transparent/filter hidden
 // TODO new model: show drives
+// TODO Save Model header sizes
 // TODO Restrict view by entering letters

@@ -26,7 +26,19 @@ MainWindow::MainWindow(QWidget *parent)
     ui->leftFolderView->installEventFilter(this);
     ui->rightFolderView->installEventFilter(this);
 
+    ui->statusbar->addPermanentWidget(&statusCurrentItem);
+    ui->statusbar->addPermanentWidget(&statusCount);
+
+    connect(ui->leftFolderView, &FolderView::currentItemChanged, &statusCurrentItem, &QLabel::setText);
+    connect(ui->rightFolderView, &FolderView::currentItemChanged, &statusCurrentItem, &QLabel::setText);
+    connect(ui->leftFolderView, &FolderView::currentItemCountChanged, this, &MainWindow::onCurrentItemCountChanged);
+    connect(ui->rightFolderView, &FolderView::currentItemCountChanged, this, &MainWindow::onCurrentItemCountChanged);
+
+    statusCount.setText("Ich bin der Kaunt");
+
     ui->leftFolderView->setFocus();
+
+
 }
 
 MainWindow::~MainWindow()
@@ -51,3 +63,9 @@ bool MainWindow::eventFilter(QObject *target, QEvent *event)
     return QMainWindow::eventFilter(target, event);
 }
 
+void MainWindow::onCurrentItemCountChanged(int folders, int items)
+{
+    QString count;
+    QTextStream(&count) << folders << " Verz.  " << items << " Dateien";
+    statusCount.setText(count);
+}
