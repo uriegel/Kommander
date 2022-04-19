@@ -3,11 +3,15 @@
 #include <QTreeView>
 #include <QKeyEvent>
 #include <QDateTime>
+#include <QImage>
+#include <QGraphicsPixmapItem>
+#include <QTextStream>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "folderview.h"
 #include "filesystemmodel.h"
+#include "viewer.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -15,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    ui->videoWidget->hide();
+    //ui->viewer->hide();
 
     FileSystemModel::attach(ui->leftFolderView);
     ui->leftFolderView->changePath(QDir::cleanPath(QDir::homePath()));
@@ -34,11 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->leftFolderView, &FolderView::currentItemCountChanged, this, &MainWindow::onCurrentItemCountChanged);
     connect(ui->rightFolderView, &FolderView::currentItemCountChanged, this, &MainWindow::onCurrentItemCountChanged);
 
-    statusCount.setText("Ich bin der Kaunt");
-
     ui->leftFolderView->setFocus();
-
-
 }
 
 MainWindow::~MainWindow()

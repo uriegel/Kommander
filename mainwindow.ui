@@ -118,12 +118,10 @@
         </layout>
        </widget>
       </widget>
-      <widget class="QWidget" name="verticalLayoutWidget_3">
-       <layout class="QVBoxLayout" name="viewerBox">
-        <item>
-         <widget class="Phonon::VideoWidget" name="videoWidget"/>
-        </item>
-       </layout>
+      <widget class="Viewer" name="viewer" native="true">
+       <property name="styleSheet">
+        <string notr="true">background-color: red;</string>
+       </property>
       </widget>
      </widget>
     </item>
@@ -143,17 +141,22 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>Phonon::VideoWidget</class>
-   <extends>QWidget</extends>
-   <header location="global">phonon/videowidget.h</header>
-  </customwidget>
-  <customwidget>
    <class>FolderView</class>
    <extends>QTreeView</extends>
    <header>folderview.h</header>
    <slots>
     <signal>pathChanged(QString)</signal>
+    <signal>currentItemChanged(QString)</signal>
     <slot>changePath(QString)</slot>
+   </slots>
+  </customwidget>
+  <customwidget>
+   <class>Viewer</class>
+   <extends>QWidget</extends>
+   <header>viewer.h</header>
+   <container>1</container>
+   <slots>
+    <slot>setFile(QString)</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -222,6 +225,38 @@
     <hint type="destinationlabel">
      <x>586</x>
      <y>198</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>leftFolderView</sender>
+   <signal>currentItemChanged(QString)</signal>
+   <receiver>viewer</receiver>
+   <slot>setFile(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>113</x>
+     <y>551</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>222</x>
+     <y>766</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rightFolderView</sender>
+   <signal>currentItemChanged(QString)</signal>
+   <receiver>viewer</receiver>
+   <slot>setFile(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>552</x>
+     <y>514</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>542</x>
+     <y>726</y>
     </hint>
    </hints>
   </connection>

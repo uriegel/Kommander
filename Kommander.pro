@@ -19,7 +19,8 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     sizedelegate.cpp \
-    variantitem.cpp
+    variantitem.cpp \
+    viewer.cpp
 
 HEADERS += \
     directorysortmodel.h \
@@ -32,7 +33,8 @@ HEADERS += \
     mainwindow.h \
     sizedelegate.h \
     types.h \
-    variantitem.h
+    variantitem.h \
+    viewer.h
 
 FORMS += \
     mainwindow.ui
