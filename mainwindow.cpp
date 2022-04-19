@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    //ui->viewer->hide();
+//)    ui->viewer->hide();
 
     FileSystemModel::attach(ui->leftFolderView);
     ui->leftFolderView->changePath(QDir::cleanPath(QDir::homePath()));
@@ -54,9 +54,9 @@ bool MainWindow::eventFilter(QObject *target, QEvent *event)
         if (keyEvent->key() == Qt::Key_Tab)
         {
             if (target == ui->leftFolderView)
-                ui->rightFolderView->setFocus();
+                ui->rightFolderView->setFocus(Qt::FocusReason::TabFocusReason);
             else if (target == ui->rightFolderView)
-                ui->leftFolderView->setFocus();
+                ui->leftFolderView->setFocus(Qt::FocusReason::TabFocusReason);
             return true;
         }
     }
