@@ -18,8 +18,10 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->viewer->init(ui->graphicsView);
 
-//)    ui->viewer->hide();
+//    ui->viewer->hide();
+    ui->verticalSplitter->setSizes(QList<int>({INT_MAX, INT_MAX}));
 
     FileSystemModel::attach(ui->leftFolderView);
     ui->leftFolderView->changePath(QDir::cleanPath(QDir::homePath()));

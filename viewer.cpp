@@ -9,7 +9,12 @@ Viewer::Viewer(QWidget *parent)
     : QWidget(parent)
     , graphicsView(nullptr)
 {
-    setStyleSheet("background-color: red;");
+}
+
+void Viewer::init(QGraphicsView* graphicsView)
+{
+    this->graphicsView = graphicsView;
+    this->graphicsView->hide();
 }
 
 void Viewer::setFile(QString file)
@@ -19,34 +24,19 @@ void Viewer::setFile(QString file)
     currentFile = file;
     if (file.endsWith("jpg", Qt::CaseInsensitive) || file.endsWith("png", Qt::CaseInsensitive))
     {
-        if (graphicsView == nullptr)
-            graphicsView = new QGraphicsView(this);
-
-        //graphicsView->setStyleSheet("background-color: blue;");
         auto scene = new QGraphicsScene();
         auto item = new QGraphicsPixmapItem(QPixmap(file));
         scene->addItem(item);
-
-        if (!this->layout())
-        {
-            new QVBoxLayout(this);
-            this->layout()->setSpacing(0);
-        }
-
-        this->layout()->addWidget(graphicsView);
+        graphicsView->show();
         graphicsView->setScene(scene);
         graphicsView->fitInView(scene->itemsBoundingRect(), Qt::KeepAspectRatio);
     }
-    else if (graphicsView)
-    {
-        this->layout()->removeWidget(graphicsView);
-        delete graphicsView;
-        graphicsView = nullptr;
-    }
+    else
+        this->graphicsView->hide();
 }
 
 void Viewer::resizeEvent(QResizeEvent*)
 {
-    if (graphicsView)
+    if (!graphicsView->isHidden())
         graphicsView->fitInView(graphicsView->scene()->itemsBoundingRect(), Qt::KeepAspectRatio);
 }

@@ -9,12 +9,13 @@ class Viewer : public QWidget
     Q_OBJECT
 public:
     Viewer(QWidget *parent = nullptr);
+
+    void init(QGraphicsView* graphicsView);
 protected:
     void resizeEvent(QResizeEvent *event) override;
-
 private:
-    QGraphicsView* graphicsView;
     QString currentFile;
+    QGraphicsView* graphicsView;
 public slots:
     void setFile(QString file);
 };
