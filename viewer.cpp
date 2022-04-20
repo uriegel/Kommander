@@ -9,27 +9,39 @@ Viewer::Viewer(QWidget *parent)
     : QWidget(parent)
     , graphicsView(nullptr)
 {
-
+    setStyleSheet("background-color: red;");
 }
 
 void Viewer::setFile(QString file)
 {
-    if (file.compare(currentFile) != 0
-            && (file.endsWith("jpg", Qt::CaseInsensitive) || file.endsWith("png", Qt::CaseInsensitive)))
+    if (file.compare(currentFile) == 0)
+        return;
+    currentFile = file;
+    if (file.endsWith("jpg", Qt::CaseInsensitive) || file.endsWith("png", Qt::CaseInsensitive))
     {
-        currentFile = file;
         if (graphicsView == nullptr)
             graphicsView = new QGraphicsView(this);
 
-        graphicsView->setStyleSheet("background-color: blue;");
+        //graphicsView->setStyleSheet("background-color: blue;");
         auto scene = new QGraphicsScene();
         auto item = new QGraphicsPixmapItem(QPixmap(file));
         scene->addItem(item);
 
-        auto layout = new QVBoxLayout(this);
-        layout->addWidget(graphicsView);
+        if (!this->layout())
+        {
+            new QVBoxLayout(this);
+            this->layout()->setSpacing(0);
+        }
+
+        this->layout()->addWidget(graphicsView);
         graphicsView->setScene(scene);
         graphicsView->fitInView(scene->itemsBoundingRect(), Qt::KeepAspectRatio);
+    }
+    else if (graphicsView)
+    {
+        this->layout()->removeWidget(graphicsView);
+        delete graphicsView;
+        graphicsView = nullptr;
     }
 }
 
