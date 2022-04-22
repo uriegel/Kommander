@@ -1,8 +1,16 @@
-pragma once
+#pragma once
 
 #include <QWidget>
-#include <QGraphicsView>
-#include <QStackedWidget>
+#include <phonon/mediaobject.h>
+
+QT_BEGIN_NAMESPACE
+
+namespace Ui {
+    class MainWindow;
+}
+
+QT_END_NAMESPACE
+
 
 class Viewer : public QWidget
 {
@@ -10,14 +18,13 @@ class Viewer : public QWidget
 public:
     Viewer(QWidget *parent = nullptr);
 
-    void init(QStackedWidget* stackedWidget, QGraphicsView* graphicsView, QLayout* mediaPlayerView);
+    void init(Ui::MainWindow *ui);
 protected:
     void resizeEvent(QResizeEvent *event) override;
 private:
     QString currentFile;
-    QStackedWidget* stackedWidget;
-    QGraphicsView* graphicsView;
-    QLayout* mediaPlayerView;
+    Ui::MainWindow *ui;
+    Phonon::MediaObject* mediaObject;
 public slots:
     void setFile(QString file);
 };

@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->viewer->init(ui->stackedWidget, ui->graphicsView, nullptr);
+    ui->viewer->init(ui);
 
 //    ui->viewer->hide();
     ui->verticalSplitter->setSizes(QList<int>({INT_MAX, INT_MAX}));

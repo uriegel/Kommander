@@ -1,23 +1,25 @@
 #include <QVBoxLayout>
 #include <QGraphicsPixmapItem>
-
 #include <QLabel>
+#include <phonon/audiooutput.h>
 
+#include "ui_mainwindow.h"
 #include "viewer.h"
 
 Viewer::Viewer(QWidget *parent)
     : QWidget(parent)
-    , graphicsView(nullptr)
 {
 }
 
-void Viewer::init(QStackedWidget* stackedWidget, QGraphicsView* graphicsView, QLayout* mediaPlayerView)
+void Viewer::init(Ui::MainWindow *ui)
 {
-    this->stackedWidget = stackedWidget;
-    this->graphicsView = graphicsView;
-    //this->mediaPlayerView = mediaPlayerView;
-    this->graphicsView->hide();
-    //this->mediaPlayerView->hide();
+    this->ui = ui;
+    mediaObject = new Phonon::MediaObject(this);
+    Phonon::createPath(mediaObject, ui->videoWidget);
+    auto audioOutput = new Phonon::AudioOutput(Phonon::VideoCategory, this);
+    Phonon::createPath(mediaObject, audioOutput);
+    ui->seekSlider->setMediaObject(mediaObject);
+    ui->volumeSlider->setAudioOutput(audioOutput);
 }
 
 void Viewer::setFile(QString file)
@@ -27,27 +29,34 @@ void Viewer::setFile(QString file)
     currentFile = file;
     if (file.endsWith("jpg", Qt::CaseInsensitive) || file.endsWith("png", Qt::CaseInsensitive))
     {
-        stackedWidget->setCurrentIndex(2);
+        mediaObject->stop();
+        ui-> stackedWidget->setCurrentIndex(2);
         auto scene = new QGraphicsScene();
         auto item = new QGraphicsPixmapItem(QPixmap(file));
         scene->addItem(item);
-        graphicsView->show();
-        graphicsView->setScene(scene);
-        graphicsView->fitInView(scene->itemsBoundingRect(), Qt::KeepAspectRatio);
+        ui->graphicsView->show();
+        ui->graphicsView->setScene(scene);
+        ui->graphicsView->fitInView(scene->itemsBoundingRect(), Qt::KeepAspectRatio);
     }
     else if (file.endsWith("avi", Qt::CaseInsensitive)
             || file.endsWith("mp4", Qt::CaseInsensitive)
             || file.endsWith("mp3", Qt::CaseInsensitive)
             || file.endsWith("mkv", Qt::CaseInsensitive))
     {
-        stackedWidget->setCurrentIndex(1);
+        ui->stackedWidget->setCurrentIndex(1);
+        mediaObject->stop();
+        mediaObject->setCurrentSource(QString(file));
+        mediaObject->play();
     }
     else
-        stackedWidget->setCurrentIndex(0);
+    {
+        ui->stackedWidget->setCurrentIndex(0);
+        mediaObject->stop();
+    }
 }
 
 void Viewer::resizeEvent(QResizeEvent*)
 {
-    if (!graphicsView->isHidden())
-        graphicsView->fitInView(graphicsView->scene()->itemsBoundingRect(), Qt::KeepAspectRatio);
+    if (ui->stackedWidget->currentIndex() == 2)
+        ui->graphicsView->fitInView(ui->graphicsView->scene()->itemsBoundingRect(), Qt::KeepAspectRatio);
 }
