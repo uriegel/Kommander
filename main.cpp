@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 
 #include <QApplication>
-#include <QLabel>
 
 int main(int argc, char *argv[])
 {
@@ -12,8 +11,9 @@ int main(int argc, char *argv[])
     return a.exec();
 }
 
-// TODO Viewer
 // TODO menu show/hide viewer F3
+// TODO Pdfview https://doc.qt.io/qt-5/qtpdf-pdfviewer-example.html at first create sample
+// TODO Media player at first create sample
 // TODO Save window dimensions
 // TODO show hidden semi transparent/filter hidden
 // TODO new model: show drives

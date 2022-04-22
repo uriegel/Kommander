@@ -1,8 +1,8 @@
-#ifndef VIEWER_H
-#define VIEWER_H
+pragma once
 
 #include <QWidget>
 #include <QGraphicsView>
+#include <QStackedWidget>
 
 class Viewer : public QWidget
 {
@@ -10,14 +10,16 @@ class Viewer : public QWidget
 public:
     Viewer(QWidget *parent = nullptr);
 
-    void init(QGraphicsView* graphicsView);
+    void init(QStackedWidget* stackedWidget, QGraphicsView* graphicsView, QLayout* mediaPlayerView);
 protected:
     void resizeEvent(QResizeEvent *event) override;
 private:
     QString currentFile;
+    QStackedWidget* stackedWidget;
     QGraphicsView* graphicsView;
+    QLayout* mediaPlayerView;
 public slots:
     void setFile(QString file);
 };
 
-#endif // VIEWER_H
+

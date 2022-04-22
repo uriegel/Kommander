@@ -11,10 +11,13 @@ Viewer::Viewer(QWidget *parent)
 {
 }
 
-void Viewer::init(QGraphicsView* graphicsView)
+void Viewer::init(QStackedWidget* stackedWidget, QGraphicsView* graphicsView, QLayout* mediaPlayerView)
 {
+    this->stackedWidget = stackedWidget;
     this->graphicsView = graphicsView;
+    //this->mediaPlayerView = mediaPlayerView;
     this->graphicsView->hide();
+    //this->mediaPlayerView->hide();
 }
 
 void Viewer::setFile(QString file)
@@ -24,6 +27,7 @@ void Viewer::setFile(QString file)
     currentFile = file;
     if (file.endsWith("jpg", Qt::CaseInsensitive) || file.endsWith("png", Qt::CaseInsensitive))
     {
+        stackedWidget->setCurrentIndex(2);
         auto scene = new QGraphicsScene();
         auto item = new QGraphicsPixmapItem(QPixmap(file));
         scene->addItem(item);
@@ -31,8 +35,15 @@ void Viewer::setFile(QString file)
         graphicsView->setScene(scene);
         graphicsView->fitInView(scene->itemsBoundingRect(), Qt::KeepAspectRatio);
     }
+    else if (file.endsWith("avi", Qt::CaseInsensitive)
+            || file.endsWith("mp4", Qt::CaseInsensitive)
+            || file.endsWith("mp3", Qt::CaseInsensitive)
+            || file.endsWith("mkv", Qt::CaseInsensitive))
+    {
+        stackedWidget->setCurrentIndex(1);
+    }
     else
-        this->graphicsView->hide();
+        stackedWidget->setCurrentIndex(0);
 }
 
 void Viewer::resizeEvent(QResizeEvent*)
