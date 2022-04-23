@@ -6,12 +6,16 @@
 #include <QImage>
 #include <QGraphicsPixmapItem>
 #include <QTextStream>
+#include <QSettings>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "folderview.h"
 #include "filesystemmodel.h"
 #include "viewer.h"
+
+const QString organization = "uriegel.de";
+const QString application = "kommander";
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -42,10 +46,19 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->rightFolderView, &FolderView::currentItemChanged, &statusCurrentItem, &QLabel::setText);
 
     ui->leftFolderView->setFocus();
+
+    QSettings settings(organization, application);
+    auto saved_geometry = settings.value("geometry").toByteArray();
+    restoreGeometry(saved_geometry);
+    auto saved_state = settings.value("windowState").toByteArray();
+    restoreState(saved_state);
 }
 
 MainWindow::~MainWindow()
 {
+    QSettings settings(organization, application);
+    settings.setValue("geometry", saveGeometry());
+    settings.setValue("windowState", saveState());
     delete ui;
 }
 

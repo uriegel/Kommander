@@ -11,7 +11,6 @@ int main(int argc, char *argv[])
     return a.exec();
 }
 
-// TODO Save window dimensions
 // TODO Save Pathes
 // TODO Backtrack
 // TODO Refresh
