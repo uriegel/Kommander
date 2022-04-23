@@ -65,10 +65,12 @@ void Viewer::resizeEvent(QResizeEvent*)
 void Viewer::showEvent(QShowEvent*)
 {
     setFile(currentFile, true);
+    ui->statusbar->showMessage("Vorschau eingeschaltet", 5000);
 }
 
 void Viewer::hideEvent(QHideEvent*)
 {
     ui->stackedWidget->setCurrentIndex(0);
     mediaObject->stop();
+    ui->statusbar->showMessage("Vorschau ausgeschaltet", 5000);
 }

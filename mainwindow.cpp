@@ -32,6 +32,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->leftFolderView->installEventFilter(this);
     ui->rightFolderView->installEventFilter(this);
 
+    ui->statusbar->addPermanentWidget(&progress);
+    progress.setValue(34);
+    progress.hide();
     ui->statusbar->addPermanentWidget(&statusCurrentItem);
     ui->statusbar->addPermanentWidget(&statusCount);
 

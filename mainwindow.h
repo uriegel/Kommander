@@ -2,6 +2,7 @@
 
 #include <QMainWindow>
 #include <QLabel>
+#include <QProgressBar>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,6 +22,7 @@ private:
 
     QLabel statusCount;
     QLabel statusCurrentItem;
+    QProgressBar progress;
 private slots:
     void onCurrentItemCountChanged(int folders, int items);
     void showHidden(bool show);
