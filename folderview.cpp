@@ -161,7 +161,7 @@ int FolderView::findItemIndex(QString itemToFind)
     return -1;
 }
 
-void FolderView::onCurrentRowChanged(const QModelIndex& current, const QModelIndex&)
+void FolderView::onCurrentRowChanged(const QModelIndex&, const QModelIndex&)
 {
     emit currentItemChanged(getCurrentPath());
 }

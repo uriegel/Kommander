@@ -12,6 +12,8 @@ int main(int argc, char *argv[])
 }
 
 // TODO Save window dimensions
+// TODO Save Pathes
+// TODO Backtrack
 // TODO Refresh
 // TODO show hidden semi transparent/filter hidden
 // TODO new model: show drives

@@ -44,7 +44,7 @@ void Viewer::setFile(QString file, bool force)
         {
             ui->stackedWidget->setCurrentIndex(1);
             mediaObject->stop();
-            mediaObject->setCurrentSource(QString(file));
+            mediaObject->setCurrentSource(QUrl::fromLocalFile(file));
             mediaObject->play();
         }
         else
