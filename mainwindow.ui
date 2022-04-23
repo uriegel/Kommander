@@ -347,7 +347,7 @@
     <signal>pathChanged(QString)</signal>
     <signal>currentItemChanged(QString)</signal>
     <signal>currentItemCountChanged(int,int)</signal>
-    <slot>changePath(QString)</slot>
+    <slot>changeFolderPath(QString)</slot>
     <slot>refresh()</slot>
    </slots>
   </customwidget>
@@ -401,7 +401,7 @@
    <sender>leftPathBox</sender>
    <signal>textChanged(QString)</signal>
    <receiver>leftFolderView</receiver>
-   <slot>changePath(QString)</slot>
+   <slot>changeFolderPath(QString)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>109</x>
@@ -417,7 +417,7 @@
    <sender>rightPathBox</sender>
    <signal>textChanged(QString)</signal>
    <receiver>rightFolderView</receiver>
-   <slot>changePath(QString)</slot>
+   <slot>changeFolderPath(QString)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>562</x>
@@ -532,8 +532,8 @@
    <slot>refresh()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>202</x>
-     <y>211</y>
+     <x>-1</x>
+     <y>-1</y>
     </hint>
     <hint type="destinationlabel">
      <x>202</x>

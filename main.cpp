@@ -11,7 +11,6 @@ int main(int argc, char *argv[])
     return a.exec();
 }
 
-// TODO Save Pathes
 // TODO Backtrack
 // TODO Refresh
 // TODO Restrict view by entering letters, view in statusbar

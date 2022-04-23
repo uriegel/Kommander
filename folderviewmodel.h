@@ -11,7 +11,7 @@ public:
     FolderViewModel(QObject* parent = nullptr);
     ~FolderViewModel();
 
-    const QString* getPath() const;
+    const QString getPath() const;
     virtual void changePath(QString path) = 0;
 protected:
     QString path;

@@ -96,7 +96,7 @@ void FolderView::mouseDoubleClickEvent(QMouseEvent *)
 void FolderView::onAction()
 {
     if (getCurrentItemType() != ItemType::Item)
-        changePath(getCurrentPath());
+        changeFolderPath(getCurrentPath());
 
 //    auto rows = selectionModel()->selectedRows();
 //    if (rows.count() == 0)
@@ -104,9 +104,14 @@ void FolderView::onAction()
 //    }
 }
 
-void FolderView::changePath(QString path)
+void FolderView::changeFolderPath(QString path)
 {
     this->folderViewModel->changePath(path);
+}
+
+QString FolderView::getFolderPath() const
+{
+    return this->folderViewModel->getPath();
 }
 
 QString FolderView::getCurrentPath() const
@@ -118,7 +123,7 @@ QString FolderView::getPath(int row) const
 {
     auto name = model()->data(model()->index(row, 0));
     auto path = folderViewModel->getPath();
-    return QDir::cleanPath(*path + "/" + name.toString());
+    return QDir::cleanPath(path + "/" + name.toString());
 }
 
 ItemType FolderView::getItemType(int row) const
@@ -135,7 +140,7 @@ void FolderView::onItemsRetrieved(QString previousFolder)
 {
     auto selectedItem = qMax(0, previousFolder.length() > 0 ? findItemIndex(previousFolder) : 0);
     selectionModel()->setCurrentIndex(model()->index(selectedItem, 0), QItemSelectionModel::Current);
-    emit pathChanged(*folderViewModel->getPath());
+    emit pathChanged(folderViewModel->getPath());
 
     folders = 0;
     items = 0;

@@ -1,5 +1,4 @@
-#ifndef FOLDERVIEW_H
-#define FOLDERVIEW_H
+#pragma once
 
 #include <QTreeView>
 #include <QObject>
@@ -15,6 +14,7 @@ public:
     FolderView(QWidget* parent = nullptr);
 
     void setModels(FolderViewModel* folderViewModel, QAbstractItemModel* model);
+    QString getFolderPath() const;
     QString getPath(int row) const;
     QString getCurrentPath() const;
     ItemType getItemType(int row) const;
@@ -29,7 +29,7 @@ private:
     FolderViewModel* folderViewModel;
 public slots:
     void onItemsRetrieved(QString previousFolder);
-    void changePath(QString path);
+    void changeFolderPath(QString path);
 private slots:
     void onCurrentRowChanged(const QModelIndex& current, const QModelIndex& previous);
 signals:
@@ -42,4 +42,3 @@ private:
     int items = 0;
 };
 
-#endif // FOLDERVIEW_H

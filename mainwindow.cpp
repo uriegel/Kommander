@@ -28,10 +28,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->verticalSplitter->setSizes(QList<int>({INT_MAX, INT_MAX}));
 
     FileSystemModel::attach(ui->leftFolderView);
-    ui->leftFolderView->changePath(QDir::cleanPath(QDir::homePath()));
+    ui->leftFolderView->changeFolderPath(QDir::cleanPath(QDir::homePath()));
 
     FileSystemModel::attach(ui->rightFolderView);
-    ui->rightFolderView->changePath(QDir::cleanPath(QDir::homePath()));
+    ui->rightFolderView->changeFolderPath(QDir::cleanPath(QDir::homePath()));
 
     ui->leftFolderView->installEventFilter(this);
     ui->rightFolderView->installEventFilter(this);
@@ -52,6 +52,8 @@ MainWindow::MainWindow(QWidget *parent)
     restoreGeometry(saved_geometry);
     auto saved_state = settings.value("windowState").toByteArray();
     restoreState(saved_state);
+    ui->leftFolderView->changeFolderPath(settings.value("leftPath", "").toString());
+    ui->rightFolderView->changeFolderPath(settings.value("rightPath", "").toString());
 }
 
 MainWindow::~MainWindow()
@@ -59,6 +61,8 @@ MainWindow::~MainWindow()
     QSettings settings(organization, application);
     settings.setValue("geometry", saveGeometry());
     settings.setValue("windowState", saveState());
+    settings.setValue("leftPath", ui->leftFolderView->getFolderPath());
+    settings.setValue("rightPath", ui->rightFolderView->getFolderPath());
     delete ui;
 }
 
