@@ -23,5 +23,7 @@ private:
     QLabel statusCurrentItem;
 private slots:
     void onCurrentItemCountChanged(int folders, int items);
+    void showHidden(bool show);
+    void showPreview(bool show);
 };
 

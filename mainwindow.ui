@@ -256,8 +256,72 @@
      <height>30</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuDatei">
+    <property name="title">
+     <string>&amp;Datei</string>
+    </property>
+    <addaction name="action_Beenden"/>
+   </widget>
+   <widget class="QMenu" name="menu_Ansicht">
+    <property name="title">
+     <string>&amp;Ansicht</string>
+    </property>
+    <addaction name="action_Versteckte_Dateien"/>
+    <addaction name="action_Aktualisieren"/>
+    <addaction name="separator"/>
+    <addaction name="action_Vorschau"/>
+   </widget>
+   <addaction name="menuDatei"/>
+   <addaction name="menu_Ansicht"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="action_Beenden">
+   <property name="text">
+    <string>&amp;Beenden</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+4</string>
+   </property>
+  </action>
+  <action name="action_Versteckte_Dateien">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Versteckte &amp;Dateien</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+H</string>
+   </property>
+   <property name="shortcutContext">
+    <enum>Qt::ApplicationShortcut</enum>
+   </property>
+  </action>
+  <action name="action_Aktualisieren">
+   <property name="text">
+    <string>&amp;Aktualisieren</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
+   <property name="shortcutContext">
+    <enum>Qt::WidgetShortcut</enum>
+   </property>
+  </action>
+  <action name="action_Vorschau">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Vorschau</string>
+   </property>
+   <property name="shortcut">
+    <string>F3</string>
+   </property>
+   <property name="shortcutContext">
+    <enum>Qt::ApplicationShortcut</enum>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -282,7 +346,9 @@
    <slots>
     <signal>pathChanged(QString)</signal>
     <signal>currentItemChanged(QString)</signal>
+    <signal>currentItemCountChanged(int,int)</signal>
     <slot>changePath(QString)</slot>
+    <slot>refresh()</slot>
    </slots>
   </customwidget>
   <customwidget>
@@ -395,5 +461,122 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>action_Beenden</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>399</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_Versteckte_Dateien</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>399</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>leftFolderView</sender>
+   <signal>currentItemCountChanged(int,int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>onCurrentItemCountChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>202</x>
+     <y>211</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>399</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rightFolderView</sender>
+   <signal>currentItemCountChanged(int,int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>onCurrentItemCountChanged(int,int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>597</x>
+     <y>211</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>399</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_Aktualisieren</sender>
+   <signal>triggered()</signal>
+   <receiver>leftFolderView</receiver>
+   <slot>refresh()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>202</x>
+     <y>211</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>202</x>
+     <y>211</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_Aktualisieren</sender>
+   <signal>triggered()</signal>
+   <receiver>rightFolderView</receiver>
+   <slot>refresh()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>597</x>
+     <y>211</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_Vorschau</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showPreview(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>399</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>showHidden(bool)</slot>
+  <slot>onCurrentItemCountChanged(int,int)</slot>
+  <slot>showPreview(bool)</slot>
+ </slots>
 </ui>

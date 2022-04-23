@@ -19,8 +19,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->viewer->init(ui);
+    ui->viewer->hide();
 
-//    ui->viewer->hide();
     ui->verticalSplitter->setSizes(QList<int>({INT_MAX, INT_MAX}));
 
     FileSystemModel::attach(ui->leftFolderView);
@@ -37,8 +37,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->leftFolderView, &FolderView::currentItemChanged, &statusCurrentItem, &QLabel::setText);
     connect(ui->rightFolderView, &FolderView::currentItemChanged, &statusCurrentItem, &QLabel::setText);
-    connect(ui->leftFolderView, &FolderView::currentItemCountChanged, this, &MainWindow::onCurrentItemCountChanged);
-    connect(ui->rightFolderView, &FolderView::currentItemCountChanged, this, &MainWindow::onCurrentItemCountChanged);
 
     ui->leftFolderView->setFocus();
 }
@@ -70,4 +68,18 @@ void MainWindow::onCurrentItemCountChanged(int folders, int items)
     QString count;
     QTextStream(&count) << folders << " Verz.  " << items << " Dateien";
     statusCount.setText(count);
+}
+
+void MainWindow::showHidden(bool show)
+{
+    auto zeig = show;
+}
+
+void MainWindow::showPreview(bool show)
+{
+    if (show)
+        ui->viewer->show();
+    else
+        ui->viewer->hide();
+
 }

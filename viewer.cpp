@@ -22,41 +22,53 @@ void Viewer::init(Ui::MainWindow *ui)
     ui->volumeSlider->setAudioOutput(audioOutput);
 }
 
-void Viewer::setFile(QString file)
+void Viewer::setFile(QString file, bool force)
 {
-    if (file.compare(currentFile) == 0)
-        return;
+    if (force || (!isHidden() && file.compare(currentFile) != 0))
+    {
+        if (file.endsWith("jpg", Qt::CaseInsensitive) || file.endsWith("png", Qt::CaseInsensitive))
+        {
+            mediaObject->stop();
+            ui-> stackedWidget->setCurrentIndex(2);
+            auto scene = new QGraphicsScene();
+            auto item = new QGraphicsPixmapItem(QPixmap(file));
+            scene->addItem(item);
+            ui->graphicsView->show();
+            ui->graphicsView->setScene(scene);
+            ui->graphicsView->fitInView(scene->itemsBoundingRect(), Qt::KeepAspectRatio);
+        }
+        else if (file.endsWith("avi", Qt::CaseInsensitive)
+                || file.endsWith("mp4", Qt::CaseInsensitive)
+                || file.endsWith("mp3", Qt::CaseInsensitive)
+                || file.endsWith("mkv", Qt::CaseInsensitive))
+        {
+            ui->stackedWidget->setCurrentIndex(1);
+            mediaObject->stop();
+            mediaObject->setCurrentSource(QString(file));
+            mediaObject->play();
+        }
+        else
+        {
+            ui->stackedWidget->setCurrentIndex(0);
+            mediaObject->stop();
+        }
+    }
     currentFile = file;
-    if (file.endsWith("jpg", Qt::CaseInsensitive) || file.endsWith("png", Qt::CaseInsensitive))
-    {
-        mediaObject->stop();
-        ui-> stackedWidget->setCurrentIndex(2);
-        auto scene = new QGraphicsScene();
-        auto item = new QGraphicsPixmapItem(QPixmap(file));
-        scene->addItem(item);
-        ui->graphicsView->show();
-        ui->graphicsView->setScene(scene);
-        ui->graphicsView->fitInView(scene->itemsBoundingRect(), Qt::KeepAspectRatio);
-    }
-    else if (file.endsWith("avi", Qt::CaseInsensitive)
-            || file.endsWith("mp4", Qt::CaseInsensitive)
-            || file.endsWith("mp3", Qt::CaseInsensitive)
-            || file.endsWith("mkv", Qt::CaseInsensitive))
-    {
-        ui->stackedWidget->setCurrentIndex(1);
-        mediaObject->stop();
-        mediaObject->setCurrentSource(QString(file));
-        mediaObject->play();
-    }
-    else
-    {
-        ui->stackedWidget->setCurrentIndex(0);
-        mediaObject->stop();
-    }
 }
 
 void Viewer::resizeEvent(QResizeEvent*)
 {
     if (ui->stackedWidget->currentIndex() == 2)
         ui->graphicsView->fitInView(ui->graphicsView->scene()->itemsBoundingRect(), Qt::KeepAspectRatio);
+}
+
+void Viewer::showEvent(QShowEvent*)
+{
+    setFile(currentFile, true);
+}
+
+void Viewer::hideEvent(QHideEvent*)
+{
+    ui->stackedWidget->setCurrentIndex(0);
+    mediaObject->stop();
 }

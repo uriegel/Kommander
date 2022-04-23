@@ -21,12 +21,14 @@ public:
     void init(Ui::MainWindow *ui);
 protected:
     void resizeEvent(QResizeEvent *event) override;
+    void showEvent(QShowEvent *event) override;
+    void hideEvent(QHideEvent *event) override;
 private:
     QString currentFile;
     Ui::MainWindow *ui;
     Phonon::MediaObject* mediaObject;
 public slots:
-    void setFile(QString file);
+    void setFile(QString file, bool force = false);
 };
 
 
